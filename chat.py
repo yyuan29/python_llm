@@ -55,7 +55,7 @@ class Chat:
                 temperature=temperature,
             )
 
-        result = chat_completion["choices"][0].message.content
+        result = chat_completion["choices"][0].send_message.content
         self.messages.append({"role": "assistant", "content": result})
         return result
 
