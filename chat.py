@@ -8,8 +8,15 @@ load_dotenv()
 # non-class names (e.g. functions/variables) are in snake_case
 class Chat:
     '''
-    >>> chat = Chat() 
+    >>> chat = Chat()
     >>> chat.send_message('my name is bob', temperature=0.0)
+    'Arrr, ye be Bob, eh? Yer name be known to me now, matey.'
+    >>> chat.send_message('what is my name?', temperature=0.0)
+    "Ye be askin' about yer own name, eh? Yer name be... Bob, matey!"
+
+    >>> chat2 = Chat()
+    >>> chat2.send_message('what is my name?', temperature=0.0)
+    "Arrr, I be not aware o' yer name, matey."
     '''
     client = Groq()
     def __init__(self):
@@ -17,25 +24,27 @@ class Chat:
                 {
                     # most important content for sys prompt is length of response
                     "role": "system",
-                    "content": "Write the output in 1-2 sentences."
+                    "content": "Write the output in 1-2 sentences. Talk like pirate."
                 },
             ]
-    def send_message(self, message, temperature=0.8):
+    def send_message(self, message, temperature=0.0):
         self.messages.append(
             {
+                # system: never change; user: changes a lot;
+                # the message that you are sending to the AI
                 'role': 'user',
                 'content': message
             }
         )
-        # in order to make non-deterministic code determinsitic;
+        # in order to make non-deterministic code deterministic;
         # in general very hard CS problem;
-        # in this case, has a "temperature" param that controsl randomness;
+        # in this case, has a "temperature" param that controls randomness;
         # the higher the value, the more randomness;
-        # higher temperature => more creativity
+        # hihgher temperature => more creativity
         chat_completion = self.client.chat.completions.create(
             messages=self.messages,
             model="llama-3.1-8b-instant",
-            temperature=temperature
+            temperature=temperature,
         )
         result = chat_completion.choices[0].message.content
         self.messages.append({
@@ -43,40 +52,34 @@ class Chat:
             'content': result
         })
         return result
-    
-if __name__ == '__main__':
+
+def repl(temperature=0.0):
+    '''
+    >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
+    ...     try:
+    ...         user_input = user_inputs.pop(0)
+    ...         print(f'{prompt}{user_input}')
+    ...         return user_input
+    ...     except IndexError:
+    ...         raise KeyboardInterrupt
+    >>> import builtins
+    >>> builtins.input = monkey_input
+    >>> repl()
+    chat> Hello, I am monkey.
+    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
+    chat> Goodbye.
+    Farewell, little monkey, may the winds o' fortune blow in yer favor!
+    <BLANKLINE>
+    '''
     import readline
-    chat = Chat() 
-    while True:
-        try: 
+    chat = Chat()
+    try: 
+        while True:
             user_input = input('chat> ')
             response = chat.send_message(user_input)
             print(response)
-        except KeyboardInterrupt: 
-            print()
-'''
-client = Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),  # This is the default and can be omitted
-)
+    except KeyboardInterrupt:
+        print()
 
-chat_completion = client.chat.completions.create(
-    # messages is the most important thing to modify
-    messages=[
-        {
-            # most important content for sys prompt is length of response
-            "role": "system",
-            "content": "Write the output in 1-2 sentences."
-        },
-        {
-            "role": "user",
-            "content": "Explain the importance of low latency LLMs",
-        }
-    ],
-    # 2nd most important thing to modify is the model;
-    # different models good at different tasks
-    # it's tempting to always use best model llama-3.3-70b-versatile
-    # but that's bad practice; why?
-    model="llama-3.1-8b-instant",
-)
-print(chat_completion.choices[0].message.content)
-'''
+if __name__ == '__main__':
+    repl()
