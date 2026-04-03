@@ -29,7 +29,6 @@ class Chat:
 
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
-        content = ""
         if "my name is" in message.lower():
             name = message.split("my name is")[-1].strip().capitalize()
             self.user_name = name
@@ -41,8 +40,22 @@ class Chat:
                 content = "Arrr, I be not aware o' yer name, matey."
         else:
             content = "Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!"
-        return {"choices": [{"message": type("Message", (), {"content": content})}]}
 
+        # Return **instances** like the real API
+        class Message:
+            def __init__(self, content):
+                self.content = content
+
+        class Choice:
+            def __init__(self, content):
+                self.message = Message(content)
+
+        class Response:
+            def __init__(self, content):
+                self.choices = [Choice(content)]
+
+        return Response(content)
+    
     def send_message(self, message, temperature=0.0):
         self.messages.append({"role": "user", "content": message})
 
@@ -55,7 +68,7 @@ class Chat:
                 temperature=temperature,
             )
 
-        result = chat_completion["choices"][0]
+        result = chat_completion["choices"][0].message.content
         self.messages.append({"role": "assistant", "content": result})
         return result
 
