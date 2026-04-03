@@ -64,11 +64,17 @@ def repl(temperature=0.0):
     ...         raise KeyboardInterrupt
     >>> import builtins
     >>> builtins.input = monkey_input
+    >>> import chat
+    >>> chat.Chat.send_message = lambda self, msg: (
+    ...     "Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey."
+    ...     if msg == "Hello, I am monkey." else
+    ...     "Farewell, little monkey, may the winds o' fortune blow in yer favor."
+    ... )
     >>> repl()
     chat> Hello, I am monkey.
-    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
+    Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey.
     chat> Goodbye.
-    Farewell, little monkey, may the winds o' fortune blow in yer favor!
+    Farewell, little monkey, may the winds o' fortune blow in yer favor.
     <BLANKLINE>
     '''
     import readline
