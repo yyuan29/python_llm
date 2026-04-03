@@ -34,4 +34,4 @@ jobs:
 
       # Step 4: Run your script
       - name: Run Python script
-        run: python myscript.py  # replace with your script
+        run: python chat.py # replace with your script
