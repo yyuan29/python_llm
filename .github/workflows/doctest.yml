@@ -15,7 +15,9 @@ jobs:
         with:
           python-version: ${{matrix.python}}
       - name: Install dependencies
-        run: pip install requests
+        run: | 
+          pip install requests
+          pip install -r requirements.txt
       - name: Run tests
         run: |
           python -m doctest --verbose python_llm/chat.py
