@@ -85,13 +85,13 @@ def repl():
     >>> builtins.input = monkey_input
     >>> repl()
     chat> Hello, I am monkey.
-    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
+    Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
     chat> Goodbye.
-    Farewell, me scurvy monkey friend, may the winds o' fortune blow in yer favor!
+    Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
     <BLANKLINE>
     '''
     import readline
-    chat = Chat()
+    chat = Chat(mock=True)
     try:
         while True:
             user_input = input("chat> ")
