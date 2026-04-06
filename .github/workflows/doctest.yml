@@ -3,6 +3,13 @@ on:
   push:
     branches: ['*']
 jobs:
+  build:
+    runs-on: ubuntu-latest  # VM to run your workflow
+
+    env:
+      # Load your GitHub secret into an environment variable
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      
   tests:
     strategy:
       matrix:
