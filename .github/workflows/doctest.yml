@@ -9,22 +9,17 @@ jobs:
     env:
       # Load your GitHub secret into an environment variable
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      
-  tests:
-    strategy:
-      matrix:
-        python: [3.11]
-    runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{matrix.python}}
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{matrix.python}}
-      - name: Install dependencies
-        run: | 
-          pip install requests
-          pip install -r requirements.txt
-      - name: Run tests
-        run: |
-          python -m doctest --verbose python_llm/chat.py
+        - uses: actions/checkout@v2
+        - name: Set up Python ${{matrix.python}}
+          uses: actions/setup-python@v2
+          with:
+            python-version: ${{matrix.python}}
+        - name: Install dependencies
+          run: | 
+            pip install requests
+            pip install -r requirements.txt
+        - name: Run tests
+          run: |
+            python -m doctest --verbose python_llm/chat.py
