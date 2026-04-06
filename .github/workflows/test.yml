@@ -30,7 +30,7 @@ jobs:
       # 4️⃣ Run tests with coverage
       - name: Run tests and collect coverage
         run: |
-          coverage run -m pytest
+          coverage run -m pytest chat.py --doctest-modules
           coverage report -m
 
       # 5️⃣ Upload coverage to Codecov for badge
