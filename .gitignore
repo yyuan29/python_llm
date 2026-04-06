@@ -1,2 +1,7 @@
 .env
 venv
+.coverage
+.DS_Store
+__pycache__
+cmc_csci005_yourname.egg-info
+
