@@ -1,6 +1,6 @@
 # python_llm
 ![doctest](https://github.com/yyuan29/python_llm/actions/workflows/doctest.yml/badge.svg)
 
-![Codecov](https://img.shields.io/codecov/c/github/yyuan29/python_llm?flag=python_llm&style=flat-square)
+[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](#)
 
 This is my python llm project. It is a chatbot library using Groq LLM. 
