@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "A pirate chatbot"
 readme = "README.md"
 authors = [
-    { name = "Your Name", email = "you@example.com" }
+    { name = "Yumo Yuan", email = "yyuan29@cmc.edu" }
 ]
 requires-python = ">=3.10"
 
