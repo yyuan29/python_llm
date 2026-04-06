@@ -13,8 +13,6 @@ jobs:
     env:
       # Load your GitHub secret into an environment variable
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-  test:
-    runs-on: ubuntu-latest
 
     steps:
       # 1️⃣ Checkout your repo
