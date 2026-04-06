@@ -71,10 +71,25 @@ class Chat:
         result = chat_completion.choices[0].message.content
         self.messages.append({"role": "assistant", "content": result})
         return result
-
-
+    
 def repl():
-    """Interactive REPL for Chat."""
+    '''
+    >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
+    ...     try:
+    ...         user_input = user_inputs.pop(0)
+    ...         print(f'{prompt}{user_input}')
+    ...         return user_input
+    ...     except IndexError:
+    ...         raise KeyboardInterrupt
+    >>> import builtins
+    >>> builtins.input = monkey_input
+    >>> repl()
+    chat> Hello, I am monkey.
+    Arrr, ye be a mischievous little monkey, eh? Yer chatterin' be music to me ears, matey!
+    chat> Goodbye.
+    Farewell, me scurvy monkey friend, may the winds o' fortune blow in yer favor!
+    <BLANKLINE>
+    '''
     import readline
     chat = Chat()
     try:
