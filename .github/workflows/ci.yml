@@ -1,4 +1,4 @@
-name: doctest  # name of the workflow
+name: Python CI  # name of the workflow
 
 # Trigger workflow on pushes or pull requests to main
 on:
