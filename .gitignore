@@ -1,2 +1,4 @@
 .env
 venv
+cmc_csci005_yourname.egg-info
+dist
