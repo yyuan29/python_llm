@@ -36,11 +36,3 @@ jobs:
         run: |
           coverage run -m pytest chat.py --doctest-modules
           coverage report -m
-
-      # 5️⃣ Upload coverage to Codecov for badge
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: python_llm
-          fail_ci_if_error: true
