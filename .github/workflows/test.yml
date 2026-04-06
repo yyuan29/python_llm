@@ -19,7 +19,6 @@ jobs:
 
       - name: Run tests
         run: |
-          coverage run -m pytest
           coverage report -m
 
       - name: Upload coverage to Codecov

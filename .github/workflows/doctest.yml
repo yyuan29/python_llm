@@ -1,4 +1,4 @@
-name: doctests
+name: doctest
 on:
   push:
     branches: ['*']
