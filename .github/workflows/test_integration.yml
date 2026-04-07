@@ -32,7 +32,7 @@ jobs:
       # Step 5: Run simple integration test
       - name: Run chat integration test
         run: |
-          chat <<'EOF'
+          python chat.py chat <<'EOF'
           I am bob.
           What is my name?
           EOF
