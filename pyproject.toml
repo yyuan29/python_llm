@@ -7,6 +7,11 @@ name = "cmc-csci005-yyuan29"
 version = "0.3.0"
 description = "A pirate chatbot"
 readme = "README.md"
+dependencies = [
+    "groq",
+    "python-dotenv",
+]
+
 authors = [
     { name = "Yumo Yuan", email = "yyuan29@cmc.edu" }
 ]
