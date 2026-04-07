@@ -8,7 +8,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install python-llm
+      - run: pip install 
       - run: |
           chat <<'EOF'
           I am bob.
