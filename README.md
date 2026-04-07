@@ -1,7 +1,7 @@
 # python_llm
 ![doctest](https://github.com/yyuan29/python_llm/actions/workflows/doctest.yml/badge.svg)
 
-![integration test](https://github.com/yyuan29/python_llm/actions/workflows/integration_test.yml/badge.svg)
+![integration-tests](https://github.com/yyuan29/python_llm/actions/workflows/test_integration.yml/badge.svg)
 
 [![coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](#)
 
