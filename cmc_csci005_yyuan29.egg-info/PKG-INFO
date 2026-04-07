@@ -1,10 +1,12 @@
 Metadata-Version: 2.4
 Name: cmc-csci005-yyuan29
-Version: 0.2.0
+Version: 0.4.0
 Summary: A pirate chatbot
 Author-email: Yumo Yuan <yyuan29@cmc.edu>
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
+Requires-Dist: groq
+Requires-Dist: python-dotenv
 
 # python_llm
 ![doctest](https://github.com/yyuan29/python_llm/actions/workflows/doctest.yml/badge.svg)

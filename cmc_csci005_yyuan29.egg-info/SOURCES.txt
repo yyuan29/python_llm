@@ -10,4 +10,5 @@ cmc_csci005_yyuan29.egg-info/PKG-INFO
 cmc_csci005_yyuan29.egg-info/SOURCES.txt
 cmc_csci005_yyuan29.egg-info/dependency_links.txt
 cmc_csci005_yyuan29.egg-info/entry_points.txt
+cmc_csci005_yyuan29.egg-info/requires.txt
 cmc_csci005_yyuan29.egg-info/top_level.txt
