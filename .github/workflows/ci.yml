@@ -35,4 +35,4 @@ jobs:
 
       # Step 4: Run your script
       - name: Run Python script
-        run: python tests/test_integration.py # replace with your script
+        run: python workflow/test_integration.py # replace with your script
