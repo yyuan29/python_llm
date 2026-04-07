@@ -95,8 +95,9 @@ def repl():
     try:
         while True:
             user_input = input("chat> ")
-            response = chat.send_message(user_input)
-            print(response)
+            if user_input.lower() in ("exit", "quit"):
+                break
+            print(chat.send_message(user_input))
     except KeyboardInterrupt:
         print()
 
