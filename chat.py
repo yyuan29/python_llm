@@ -98,7 +98,7 @@ def repl():
             if user_input.lower() in ("exit", "quit"):
                 break
             print(chat.send_message(user_input))
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print()
 
 
