@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cmc-csci005-yourname" 
-version = "0.1.0"
+version = "0.2.0"
 description = "A pirate chatbot"
 readme = "README.md"
 authors = [
