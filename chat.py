@@ -25,7 +25,70 @@ class Chat:
                 "content": "Write the output in 1-2 sentences. Talk like pirate."
             },
         ]
+
+        self.tools = [
+            {
+                "type": "function",
+                "function": {
+                    "name": "calculate",
+                    "description": "Evaluate a mathematical expression",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "expression": {"type": "string", "description": "The math expression to evaluate"}
+                        },
+                        "required": ["expression"],
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "ls",
+                    "description": "List files in a directory",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "path": {"type": "string", "description": "The directory to list (defaults to '.')"}
+                        },
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "cat",
+                    "description": "Read the contents of a file",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "filepath": {"type": "string", "description": "The path to the file"}
+                        },
+                        "required": ["filepath"],
+                    },
+                },
+            },
+            {
+                "type": "function",
+                "function": {
+                    "name": "grep",
+                    "description": "Search for a regex pattern in files matching a glob",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "pattern": {"type": "string", "description": "Regex pattern"},
+                            "path_glob": {"type": "string", "description": "File path or glob pattern"}
+                        },
+                        "required": ["pattern", "path_glob"],
+                    },
+                },
+            },
+        ]
         self.user_name = None
+    
+    def _calculate(self, expr):
+        try: return str(eval(expr, {"__builtins__": None}, {"abs": abs, "round": round}))
+        except Exception as e: return f"Error: {e}"
 
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
