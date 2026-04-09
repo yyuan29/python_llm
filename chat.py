@@ -88,7 +88,7 @@ class Chat:
             },
         ]
         self.user_name = None
-    
+
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
         if "my name is" in message.lower():
@@ -137,23 +137,23 @@ class Chat:
 def repl():
     import readline
     chat = Chat(mock=True)
-    '''
-    >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
-    ...     try:
-    ...         user_input = user_inputs.pop(0)
-    ...         print(f'{prompt}{user_input}')
-    ...         return user_input
-    ...     except IndexError:
-    ...         raise KeyboardInterrupt
-    >>> import builtins
-    >>> builtins.input = monkey_input
-    >>> repl()
-    chat> Hello, I am monkey.
-    Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
-    chat> Goodbye.
-    Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
-    <BLANKLINE>
-    '''
+    """
+        >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
+        ...     try:
+        ...         user_input = user_inputs.pop(0)
+        ...         print(f'{prompt}{user_input}')
+        ...         return user_input
+        ...     except IndexError:
+        ...         raise KeyboardInterrupt
+        >>> import builtins
+        >>> builtins.input = monkey_input
+        >>> repl()
+        chat> Hello, I am monkey.
+        Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
+        chat> Goodbye.
+        Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
+        <BLANKLINE>
+        """
     try:
         while True:
             user_input = input("chat> ")
