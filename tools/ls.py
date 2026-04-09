@@ -3,10 +3,10 @@ def ls(folder = None):
         '''
         This functions behaves just like the ls program in the shell. 
         >>> ls()
-        'README.md __pycache__ calculate.py cat.py chat.py dist grep.py htmlcov ls.py pyproject.toml requirements.txt'
+        'README.md chat.py dist htmlcov pyproject.toml requirements.txt tools'
 
         >>> ls('tools')
-        'tools/__pycache__ tools/ls.py'
+        'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py'
         '''
         if folder: 
             result = '' 

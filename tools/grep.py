@@ -2,20 +2,70 @@ import os
 import re
 import glob
 
-def grep(self, pattern, path):
-        """Searches for regex matches in files matching the glob."""
-        if os.path.isabs(path) or ".." in path:
-            return "Error: Access denied."
-        
-        results = []
-        # Find all files matching the glob (e.g., *.txt)
-        for fpath in sorted(glob.glob(path, recursive=True)):
-            if os.path.isdir(fpath): continue
-            try:
-                with open(fpath, "r", encoding="utf-8") as f:
-                    for line in f:
-                        if re.search(pattern, line):
-                            results.append(line.strip())
-            except:
-                continue
-        return "\n".join(results)
+def grep(pattern, path):
+    """
+    Setup for testing:
+    >>> with open('test_a.txt', 'w') as f:
+    ...     _ = f.write('hello world\\nbye world')
+    >>> with open('test_b.txt', 'w') as f:
+    ...     _ = f.write('solar system')
+
+    Basic Match:
+    >>> grep('hello', 'test_a.txt')
+    'hello world'
+
+    Multiple Line Match:
+    >>> grep('world$', 'test_a.txt')
+    'hello world\\nbye world'
+
+    No Match:
+    >>> grep('zzz', 'test_a.txt')
+    ''
+
+    Glob Pattern Match:
+    >>> grep('world|system', 'test_*.txt')
+    'hello world\\nbye world\\nsolar system'
+
+    Security - Absolute Path:
+    >>> grep('hello', '/etc/passwd')
+    'Error: Access denied.'
+
+    Security - Directory Traversal:
+    >>> grep('hello', '../secret.txt')
+    'Error: Access denied.'
+
+    Cleanup:
+    >>> import os
+    >>> for f in glob.glob('test_*.txt'): os.remove(f)
+
+    >>> grep('hello','tools/screenshot.png')
+    ''
+
+    >>> import os
+    >>> os.mkdir('t_dir')
+    >>> with open('t_bin', 'wb') as f: _ = f.write(b'\\xff')
+    >>> with open('t_txt', 'w') as f: _ = f.write('valid_match')
+    
+    >>> grep('valid', 't*')
+    'valid_match'
+    """
+
+    if os.path.isabs(path) or ".." in path:
+        return "Error: Access denied."
+
+    results = []
+
+    for fpath in sorted(glob.glob(path, recursive=True)):
+        if os.path.isdir(fpath):
+            continue
+
+        try:
+            with open(fpath, "r", encoding="utf-8") as f:
+                for line in f:
+                    if re.search(pattern, line):
+                        results.append(line.strip())
+
+        except (UnicodeDecodeError, OSError):
+            continue
+
+    return "\n".join(results)
