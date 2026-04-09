@@ -1,6 +1,9 @@
 import os
 from groq import Groq
 from dotenv import load_dotenv
+from tools.ls import ls
+from tools.cat import cat
+from tools.grep import grep
 load_dotenv()
 
 class Chat:
@@ -86,10 +89,6 @@ class Chat:
         ]
         self.user_name = None
     
-    def _calculate(self, expr):
-        try: return str(eval(expr, {"__builtins__": None}, {"abs": abs, "round": round}))
-        except Exception as e: return f"Error: {e}"
-
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
         if "my name is" in message.lower():
@@ -136,6 +135,8 @@ class Chat:
         return result
     
 def repl():
+    import readline
+    chat = Chat(mock=True)
     '''
     >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
     ...     try:
@@ -153,13 +154,30 @@ def repl():
     Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
     <BLANKLINE>
     '''
-    import readline
-    chat = Chat(mock=True)
     try:
         while True:
             user_input = input("chat> ")
+
             if user_input.lower() in ("exit", "quit"):
                 break
+
+            if user_input.startswith("/"):
+                parts = user_input[1:].split()
+                command = parts[0]
+                args = parts[1:]
+
+                if command == "ls":
+                    output = ls(*args)
+                elif command == "cat":
+                    output = cat(*args)
+                elif command == "grep":
+                    output = grep(*args)
+                else:
+                    output = f"Error: unknown command {command}"
+
+                print(output)
+                continue
+
             print(chat.send_message(user_input))
     except (KeyboardInterrupt, EOFError):
         print()

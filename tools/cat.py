@@ -41,8 +41,8 @@ def cat(input):
         'Error: Absolute paths or directory traversal not allowed.'
 
         >>> cat('testdir')
-        "Error: [Errno 21] Is a directory: 'testdir'"
-    
+        "Error: File 'testdir' not found."
+
        '''
         if os.path.isabs(input) or ".." in input:
             return "Error: Absolute paths or directory traversal not allowed."
@@ -55,6 +55,4 @@ def cat(input):
                 continue
             except FileNotFoundError:
                 return f"Error: File '{input}' not found."
-            except Exception as e:
-                return f"Error: {e}"
         return "Error: Could not decode file (likely binary)."

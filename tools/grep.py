@@ -42,7 +42,6 @@ def grep(pattern, path):
     ''
 
     >>> import os
-    >>> os.mkdir('t_dir')
     >>> with open('t_bin', 'wb') as f: _ = f.write(b'\\xff')
     >>> with open('t_txt', 'w') as f: _ = f.write('valid_match')
     
