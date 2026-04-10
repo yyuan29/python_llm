@@ -91,6 +91,7 @@ class Chat:
 
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
+
         if "my name is" in message.lower():
             name = message.split("my name is")[-1].strip().capitalize()
             self.user_name = name
@@ -100,9 +101,9 @@ class Chat:
                 content = f"Ye be askin' about yer own name, eh? Yer name be... {self.user_name}, matey!"
             else:
                 content = "Arrr, I be not aware o' yer name, matey."
-        else:
-            content = "Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!"
-
+        else: 
+            content = f"Arrr, ye be sayin': {message}"
+        
         # Return **instances** like the real API
         class Message:
             def __init__(self, content):
@@ -119,6 +120,15 @@ class Chat:
         return Response(content)
     
     def send_message(self, message, temperature=0.0):
+        """
+        >>> chat = Chat(mock=False)
+        >>> class MockContent: content = "Arrr, the sea be blue!"
+        >>> class MockMessage: message = MockContent()
+        >>> class MockResponse: choices = [MockMessage()]
+        >>> chat.client.chat.completions.create = lambda **kwargs: MockResponse()
+        >>> chat.send_message("What color is the sea?")
+        'Arrr, the sea be blue!'
+        """
         self.messages.append({"role": "user", "content": message})
 
         if self.mock:
@@ -135,25 +145,52 @@ class Chat:
         return result
     
 def repl():
+    '''
+    >>> def mock_input(prompt, inputs=["hello", "/ls", "exit"]):
+    ...     try:
+    ...         value = inputs.pop(0)
+    ...         print(f"{prompt}{value}")
+    ...         return value
+    ...     except IndexError:
+    ...         raise KeyboardInterrupt
+
+    >>> import builtins
+    >>> builtins.input = mock_input
+
+    >>> repl()
+    chat> hello
+    Arrr, ye be sayin': hello
+    chat> /ls
+    ...
+    chat> exit
+
+    >>> def mock_input(prompt):
+    ...     print(prompt)
+    ...     raise KeyboardInterrupt
+
+    >>> import builtins
+    >>> builtins.input = mock_input
+
+    >>> repl()
+    chat> 
+    <BLANKLINE>
+    
+    >>> def mock_input(prompt, inputs=["/test", "exit"]):
+    ...     value = inputs.pop(0)
+    ...     print(f"{prompt}{value}")
+    ...     return value
+
+    >>> import builtins
+    >>> builtins.input = mock_input
+
+    >>> repl()
+    chat> /test
+    Error: unknown command test
+    chat> exit
+
+    '''
     import readline
     chat = Chat(mock=True)
-    """
-        >>> def monkey_input(prompt, user_inputs=['Hello, I am monkey.', 'Goodbye.']):
-        ...     try:
-        ...         user_input = user_inputs.pop(0)
-        ...         print(f'{prompt}{user_input}')
-        ...         return user_input
-        ...     except IndexError:
-        ...         raise KeyboardInterrupt
-        >>> import builtins
-        >>> builtins.input = monkey_input
-        >>> repl()
-        chat> Hello, I am monkey.
-        Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
-        chat> Goodbye.
-        Arrr, a sneaky little monkey, eh? Ye be swingin' into our conversation, matey!
-        <BLANKLINE>
-        """
     try:
         while True:
             user_input = input("chat> ")
