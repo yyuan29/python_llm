@@ -3,6 +3,7 @@ import re
 import glob
 from tools.utils import is_path_safe
 
+
 def grep(pattern, path):
     """
     Setup for testing:
@@ -41,14 +42,11 @@ def grep(pattern, path):
     >>> import os
     >>> with open('t_bin', 'wb') as f: _ = f.write(b'\\xff')
     >>> with open('t_txt', 'w') as f: _ = f.write('valid_match')
-    
     >>> grep('valid', 't*')
     'valid_match'
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
-    
-
     results = []
 
     for fpath in sorted(glob.glob(path, recursive=True)):

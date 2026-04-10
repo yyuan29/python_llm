@@ -1,5 +1,6 @@
 import os
 
+
 def is_path_safe(path):
     """
     Checks if a path is safe (not absolute and no directory traversal).

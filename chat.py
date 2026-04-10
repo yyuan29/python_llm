@@ -1,10 +1,10 @@
-import os
 from groq import Groq
 from dotenv import load_dotenv
 from tools.ls import ls
 from tools.cat import cat
 from tools.grep import grep
 load_dotenv()
+
 
 class Chat:
     """
@@ -25,7 +25,7 @@ class Chat:
         self.messages = [
             {
                 "role": "system",
-                "content": "You are a helpful assistant. Respond clearly in 1-2 sentences."
+                "content": "Respond clearly in 1-2 sentences."
             },
         ]
 
@@ -38,7 +38,9 @@ class Chat:
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "expression": {"type": "string", "description": "The math expression to evaluate"}
+                            "expression": {"type": "string",
+                                           "description": 
+                                           "The math expression to evaluate"}
                         },
                         "required": ["expression"],
                     },

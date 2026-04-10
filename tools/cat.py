@@ -3,7 +3,8 @@ from tools.utils import is_path_safe
 
 def cat(input):
        
-        '''
+
+    '''
         Opens a file and returns its contents as a string.
 
         >>> # Basic file read
@@ -31,7 +32,6 @@ def cat(input):
         >>> # Binary / non-text file (simulate with bytes)
         >>> cat('tools/screenshot.png')
         'Error: Could not decode file (likely binary).'
-    
         >>> # UTF-16 encoded file (Windows case)
         >>> with open('utf16.txt', 'w', encoding='utf-16') as f:
         ...     _ = f.write('hello utf16')
@@ -44,11 +44,14 @@ def cat(input):
         >>> cat('testdir')
         "Error: File 'testdir' not found."
 
-       '''
-        if not is_path_safe(input):
-            return "Error: unsafe path"
+       '''   
+     
 
-        for encoding in ['utf-8', 'utf-16']:
+    
+    if not is_path_safe(input):
+        return "Error: unsafe path"
+
+    for encoding in ['utf-8', 'utf-16']:
             try:
                 with open(input, 'r', encoding=encoding) as f:
                     return f.read()
@@ -56,4 +59,4 @@ def cat(input):
                 continue
             except FileNotFoundError:
                 return f"Error: File '{input}' not found."
-        return "Error: Could not decode file (likely binary)."
+    return "Error: Could not decode file (likely binary)."
