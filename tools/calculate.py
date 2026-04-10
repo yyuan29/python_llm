@@ -1,4 +1,3 @@
-
 def calculate(self):
         """
         Evaluate a mathematical expression.
