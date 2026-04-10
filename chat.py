@@ -161,7 +161,7 @@ def repl():
     chat> hello
     You said: hello
     chat> /ls
-    README.md __pycache__ chat.py dist empty.txt htmlcov pyproject.toml requirements.txt t_bin t_dir t_txt test1.txt test2.txt tools utf16.txt
+    README.md __pycache__ chat.py empty.txt pyproject.toml requirements.txt t_bin t_txt test1.txt test2.txt tools utf16.txt
     chat> exit
 
     >>> def mock_input(prompt):
