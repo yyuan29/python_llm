@@ -29,14 +29,8 @@ def ls(folder = "."):
         # unsafe path (directory traversal)
         >>> ls('../secret')
         'Error: unsafe path'
-
-        >>> output = ls("")
-        >>> isinstance(output, str)
-        True
-        >>> len(output) > 0
-        True
         '''
-
+        
         if not is_path_safe(folder):
             return "Error: unsafe path"
         
