@@ -25,7 +25,7 @@ class Chat:
         self.messages = [
             {
                 "role": "system",
-                "content": "Write the output in 1-2 sentences. Talk like pirate."
+                "content": "Write the output in 1-2 sentences."
             },
         ]
 
@@ -161,7 +161,7 @@ def repl():
     chat> hello
     Arrr, ye be sayin': hello
     chat> /ls
-    README.md __pycache__ chat.py empty.txt pyproject.toml requirements.txt t_bin t_txt test1.txt test2.txt tools utf16.txt
+    README.md __pycache__ chat.py dist empty.txt htmlcov pyproject.toml requirements.txt t_bin t_dir t_txt test1.txt test2.txt tools utf16.txt
     chat> exit
 
     >>> def mock_input(prompt):
@@ -204,7 +204,15 @@ def repl():
                 args = parts[1:]
 
                 if command == "ls":
-                    output = ls(*args)
+                    result = ls(*args)
+                    print(result)
+
+                    chat.messages.append({
+                        "role": "system",
+                        "content": f"The user previously ran ls and got: {result}"
+                    })
+
+                    continue
                 elif command == "cat":
                     output = cat(*args)
                 elif command == "grep":
