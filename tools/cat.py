@@ -1,4 +1,5 @@
 import os
+from tools.utils import is_path_safe
 
 def cat(input):
        
@@ -38,15 +39,15 @@ def cat(input):
         'hello utf16'
 
         >>> cat('/etc/passwd')
-        'Error: Absolute paths or directory traversal not allowed.'
+        'Error: unsafe path'
 
         >>> cat('testdir')
         "Error: File 'testdir' not found."
 
        '''
-        if os.path.isabs(input) or ".." in input:
-            return "Error: Absolute paths or directory traversal not allowed."
-        
+        if not is_path_safe(input):
+            return "Error: unsafe path"
+
         for encoding in ['utf-8', 'utf-16']:
             try:
                 with open(input, 'r', encoding=encoding) as f:

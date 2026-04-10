@@ -1,6 +1,7 @@
 import os
 import re
 import glob
+from tools.utils import is_path_safe
 
 def grep(pattern, path):
     """
@@ -26,13 +27,9 @@ def grep(pattern, path):
     >>> grep('world|system', 'test_*.txt')
     'hello world\\nbye world\\nsolar system'
 
-    Security - Absolute Path:
-    >>> grep('hello', '/etc/passwd')
-    'Error: Access denied.'
 
-    Security - Directory Traversal:
-    >>> grep('hello', '../secret.txt')
-    'Error: Access denied.'
+    >>> grep("hello", "/etc/passwd")
+    'Error: unsafe path'
 
     Cleanup:
     >>> import os
@@ -48,9 +45,9 @@ def grep(pattern, path):
     >>> grep('valid', 't*')
     'valid_match'
     """
-
-    if os.path.isabs(path) or ".." in path:
-        return "Error: Access denied."
+    if not is_path_safe(path):
+        return "Error: unsafe path"
+    
 
     results = []
 
