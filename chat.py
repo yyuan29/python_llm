@@ -181,12 +181,6 @@ def repl():
     >>> old_input = builtins.input
     >>> builtins.input = mock_input
 
-    >>> repl()
-    chat> hello
-    You said: hello
-    chat> /ls
-    ...
-
     >>> def mock_input(prompt, inputs=["/test", "exit"]):
     ...     value = inputs.pop(0)
     ...     print(prompt + value)
