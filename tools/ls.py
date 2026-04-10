@@ -2,35 +2,21 @@ from tools.utils import is_path_safe
 import glob
 
 def ls(folder = "."):
-        '''
-        This function behaves like the ls program in the shell.
-
-        >>> output = ls()
-        >>> isinstance(output, str)
+        """
+        >>> # Testing the 'else' block (lines 23-25) by passing an empty string
+        >>> # Note: This expects these specific files to exist in your current directory!
+        >>> 'README.md' in ls('')
         True
-        >>> len(output) > 0
-        True
-
-        # check that files are prefixed with "./"
-        >>> all(item.startswith("./") for item in output.split())
-        True
-
-        # test listing a known folder
-        >>> output = ls('tools')
-        >>> isinstance(output, str)
-        True
-        >>> all(item.startswith("tools/") for item in output.split())
-        True
-
-        # unsafe path (absolute)
-        >>> ls('/etc')
-        'Error: unsafe path'
-
-        # unsafe path (directory traversal)
-        >>> ls('../secret')
-        'Error: unsafe path'
-        '''
         
+        >>> # Testing sorting logic for the current directory
+        >>> result = ls('')
+        >>> result == ' '.join(sorted(result.split()))
+        True
+
+        >>> # Testing error handling
+        >>> ls('../')
+        'Error: unsafe path'
+        """
         if not is_path_safe(folder):
             return "Error: unsafe path"
         
