@@ -1,4 +1,6 @@
+from tools.utils import is_path_safe
 import glob
+
 def ls(folder = None):
         '''
         This functions behaves just like the ls program in the shell. 
@@ -8,6 +10,9 @@ def ls(folder = None):
         >>> ls('tools')
         'tools/__pycache__ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/screenshot.png'
         '''
+        if not is_path_safe(folder):
+            return "Error: unsafe path"
+        
         if folder: 
             result = '' 
             #folder + '/*' ==> tools/*
