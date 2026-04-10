@@ -128,7 +128,6 @@ class Chat:
                 self.choices = [Choice(content)]
         return Response(content)
 
-
     def send_message(self, message, temperature=0.0):
         """
         >>> chat = Chat(mock=False)
