@@ -10,12 +10,12 @@ class Chat:
     """
     >>> chat = Chat(mock=True)
     >>> chat.send_message('my name is bob', temperature=0.0)
-    'Arrr, ye be Bob, eh? Yer name be known to me now, matey.'
+    'Hello Bob, I have saved your name.'
     >>> chat.send_message('what is my name?', temperature=0.0)
-    "Ye be askin' about yer own name, eh? Yer name be... Bob, matey!"
+    'Your name is Bob.'
     >>> chat2 = Chat(mock=True)
     >>> chat2.send_message('what is my name?', temperature=0.0)
-    "Arrr, I be not aware o' yer name, matey."
+    "I don't know your name yet."
     """
 
     client = Groq()
@@ -25,7 +25,7 @@ class Chat:
         self.messages = [
             {
                 "role": "system",
-                "content": "Write the output in 1-2 sentences."
+                "content": "You are a helpful assistant. Respond clearly in 1-2 sentences."
             },
         ]
 
@@ -95,16 +95,16 @@ class Chat:
         if "my name is" in message.lower():
             name = message.split("my name is")[-1].strip().capitalize()
             self.user_name = name
-            content = f"Arrr, ye be {name}, eh? Yer name be known to me now, matey."
+            content = f"Hello {name}, I have saved your name."
+
         elif "what is my name" in message.lower():
             if self.user_name:
-                content = f"Ye be askin' about yer own name, eh? Yer name be... {self.user_name}, matey!"
+                content = f"Your name is {self.user_name}."
             else:
-                content = "Arrr, I be not aware o' yer name, matey."
-        else: 
-            content = f"Arrr, ye be sayin': {message}"
-        
-        # Return **instances** like the real API
+                content = "I don't know your name yet."
+        else:
+            content = f"You said: {message}"
+
         class Message:
             def __init__(self, content):
                 self.content = content
@@ -116,7 +116,7 @@ class Chat:
         class Response:
             def __init__(self, content):
                 self.choices = [Choice(content)]
-
+        
         return Response(content)
     
     def send_message(self, message, temperature=0.0):
@@ -159,7 +159,7 @@ def repl():
 
     >>> repl()
     chat> hello
-    Arrr, ye be sayin': hello
+    You said: hello
     chat> /ls
     README.md __pycache__ chat.py dist empty.txt htmlcov pyproject.toml requirements.txt t_bin t_dir t_txt test1.txt test2.txt tools utf16.txt
     chat> exit
