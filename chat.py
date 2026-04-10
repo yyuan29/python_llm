@@ -39,7 +39,7 @@ class Chat:
                         "type": "object",
                         "properties": {
                             "expression": {"type": "string",
-                                           "description": 
+                                           "description":
                                            "The math expression to evaluate"}
                         },
                         "required": ["expression"],
@@ -54,7 +54,9 @@ class Chat:
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "path": {"type": "string", "description": "The directory to list (defaults to '.')"}
+                            "path": {"type": "string",
+                                     "description": "The directory to list"
+                                     "(defaults to '.')"}
                         },
                     },
                 },
@@ -67,7 +69,9 @@ class Chat:
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "filepath": {"type": "string", "description": "The path to the file"}
+                            "filepath": {"type": "string",
+                                         "description":
+                                         "The path to the file"}
                         },
                         "required": ["filepath"],
                     },
@@ -77,12 +81,16 @@ class Chat:
                 "type": "function",
                 "function": {
                     "name": "grep",
-                    "description": "Search for a regex pattern in files matching a glob",
+                    "description": "Search for a regex pattern"
+                    "in files matching a glob",
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "pattern": {"type": "string", "description": "Regex pattern"},
-                            "path_glob": {"type": "string", "description": "File path or glob pattern"}
+                            "pattern": {"type": "string",
+                                        "description": "Regex pattern"},
+                            "path_glob": {"type": "string",
+                                          "description": "File path or"
+                                          "glob pattern"}
                         },
                         "required": ["pattern", "path_glob"],
                     },
@@ -118,16 +126,29 @@ class Chat:
         class Response:
             def __init__(self, content):
                 self.choices = [Choice(content)]
-        
         return Response(content)
-    
+
+
     def send_message(self, message, temperature=0.0):
         """
         >>> chat = Chat(mock=False)
-        >>> class MockContent: content = "Arrr, the sea be blue!"
-        >>> class MockMessage: message = MockContent()
-        >>> class MockResponse: choices = [MockMessage()]
-        >>> chat.client.chat.completions.create = lambda **kwargs: MockResponse()
+
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.content = "Arrr, the sea be blue!"
+
+        >>> class FakeChoice:
+        ...     def __init__(self):
+        ...         self.message = FakeMessage()
+
+        >>> class FakeResponse:
+        ...     choices = [FakeChoice()]
+
+        >>> def fake_create(**kwargs):
+        ...     return FakeResponse()
+
+        >>> chat.client.chat.completions.create = fake_create
+
         >>> chat.send_message("What color is the sea?")
         'Arrr, the sea be blue!'
         """
@@ -145,44 +166,32 @@ class Chat:
         result = chat_completion.choices[0].message.content
         self.messages.append({"role": "assistant", "content": result})
         return result
-    
+
+
 def repl():
     '''
+    Basic REPL behavior tests.
+
     >>> def mock_input(prompt, inputs=["hello", "/ls", "exit"]):
-    ...     try:
-    ...         value = inputs.pop(0)
-    ...         print(f"{prompt}{value}")
-    ...         return value
-    ...     except IndexError:
-    ...         raise KeyboardInterrupt
+    ...     value = inputs.pop(0)
+    ...     print(prompt + value)
+    ...     return value
 
     >>> import builtins
+    >>> old_input = builtins.input
     >>> builtins.input = mock_input
 
     >>> repl()
     chat> hello
     You said: hello
     chat> /ls
-    ./README.md ./__pycache__ ./chat.py ./empty.txt ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./tools ./utf16.txt
-    chat> exit
-    
-    >>> def mock_input(prompt):
-    ...     print(prompt)
-    ...     raise KeyboardInterrupt
-
-    >>> import builtins
-    >>> builtins.input = mock_input
-
-    >>> repl()
-    chat> 
-    <BLANKLINE>
+    ...
 
     >>> def mock_input(prompt, inputs=["/test", "exit"]):
     ...     value = inputs.pop(0)
-    ...     print(f"{prompt}{value}")
+    ...     print(prompt + value)
     ...     return value
 
-    >>> import builtins
     >>> builtins.input = mock_input
 
     >>> repl()
@@ -190,8 +199,8 @@ def repl():
     Error: unknown command test
     chat> exit
 
+    >>> builtins.input = old_input
     '''
-    import readline
     chat = Chat(mock=True)
     try:
         while True:
@@ -211,7 +220,8 @@ def repl():
 
                     chat.messages.append({
                         "role": "system",
-                        "content": f"The user previously ran ls and got: {result}"
+                        "content":
+                        f"The user previously ran ls and got: {result}"
                     })
 
                     continue

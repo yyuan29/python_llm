@@ -1,9 +1,7 @@
-import os
 from tools.utils import is_path_safe
 
-def cat(input):
-       
 
+def cat(input):
     '''
         Opens a file and returns its contents as a string.
 
@@ -44,19 +42,15 @@ def cat(input):
         >>> cat('testdir')
         "Error: File 'testdir' not found."
 
-       '''   
-     
-
-    
+       '''
     if not is_path_safe(input):
         return "Error: unsafe path"
-
     for encoding in ['utf-8', 'utf-16']:
-            try:
-                with open(input, 'r', encoding=encoding) as f:
-                    return f.read()
-            except UnicodeDecodeError:
-                continue
-            except FileNotFoundError:
-                return f"Error: File '{input}' not found."
+        try:
+            with open(input, 'r', encoding=encoding) as f:
+                return f.read()
+        except UnicodeDecodeError:
+            continue
+        except FileNotFoundError:
+            return f"Error: File '{input}' not found."
     return "Error: Could not decode file (likely binary)."
