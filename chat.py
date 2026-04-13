@@ -100,7 +100,22 @@ class Chat:
         self.user_name = None
 
     def _mock_completion(self, message):
-        """Return deterministic pirate responses for testing."""
+        """"
+        >>> chat = Chat(mock=True)
+        >>> chat.messages.append({
+        ...     "role": "system",
+        ...     "content": "The user previously ran ls and got: .github/workflows"
+        ... })
+
+        >>> chat.send_message("what is in the github folder?")
+        'There is only a `workflows` folder in the `.github` folder.'
+
+        No ls context → fallback branch
+
+        >>> chat2 = Chat(mock=True)
+        >>> chat2.send_message("what files are in the github folder?")
+        "I don't have directory info yet."
+        """
 
         # store name
         if "my name is" in message.lower():
@@ -114,7 +129,6 @@ class Chat:
             else:
                 content = "I don't know your name yet."
 
-        # ✅ NEW: use ls context
         elif "what is in" in message.lower() or "what files" in message.lower():
             for m in reversed(self.messages):
                 if m["role"] == "system" and "ls" in m["content"]:
@@ -186,30 +200,128 @@ class Chat:
 
 def repl():
     '''
-    Basic REPL behavior tests.
-
-    >>> def mock_input(prompt, inputs=["hello", "/ls", "exit"]):
-    ...     value = inputs.pop(0)
-    ...     print(prompt + value)
-    ...     return value
+    ----------------------------------------------------
+    TEST 1: UNKNOWN SLASH COMMAND
+    ----------------------------------------------------
+    Covers: `Error: unknown command`
 
     >>> import builtins
+    >>> inputs = ["/test", "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
     >>> old_input = builtins.input
-    >>> builtins.input = mock_input
-
-    >>> def mock_input(prompt, inputs=["/test", "exit"]):
-    ...     value = inputs.pop(0)
-    ...     print(prompt + value)
-    ...     return value
-
-    >>> builtins.input = mock_input
+    >>> builtins.input = fake_input
 
     >>> repl()
-    chat> /test
     Error: unknown command test
-    chat> exit
 
     >>> builtins.input = old_input
+
+
+    ----------------------------------------------------
+    TEST 2: SECOND UNKNOWN COMMAND (redundant coverage)
+    ----------------------------------------------------
+    Ensures consistent behavior for repeated unknown commands
+
+    >>> import builtins
+    >>> inputs = ["/test", "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
+    >>> old_input = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+    Error: unknown command test
+
+    >>> builtins.input = old_input
+
+
+    ----------------------------------------------------
+    TEST 3: KEYBOARD INTERRUPT HANDLING
+    ----------------------------------------------------
+    Covers: KeyboardInterrupt / EOFError cleanup
+
+    >>> import builtins
+    >>> def fake_input(prompt):
+    ...     raise KeyboardInterrupt()
+
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+    <BLANKLINE>
+
+    >>> builtins.input = old
+
+    ----------------------------------------------------
+    TEST 4: None Input
+    ----------------------------------------------------
+
+    Covers None input branch in REPL
+
+    >>> import builtins
+    >>> inputs = [None, "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+
+    >>> builtins.input = old
+
+    REPL ls command executes and prints result
+
+    >>> import builtins
+    >>> inputs = ["/ls .", "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+    ./README.md ./__pycache__ ./chat.py ./dist ./empty.txt ./htmlcov ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./tools ./utf16.txt
+    >>> builtins.input = old
+
+    REPL cat command executes correctly
+
+    >>> import builtins
+    >>> inputs = ["/cat tmp.txt", "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+    Error: File 'tmp.txt' not found.
+
+    >>> builtins.input = old
+
+    REPL grep command executes correctly
+
+    >>> import builtins
+    >>> inputs = ["/grep hello tmp.txt", "exit"]
+
+    >>> def fake_input(prompt):
+    ...     return inputs.pop(0)
+
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+
+    >>> repl()
+    <BLANKLINE>
+
+    >>> builtins.input = old
     '''
     chat = Chat(mock=True)
     try:
