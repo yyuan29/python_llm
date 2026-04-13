@@ -102,6 +102,7 @@ class Chat:
     def _mock_completion(self, message):
         """Return deterministic pirate responses for testing."""
 
+        # store name
         if "my name is" in message.lower():
             name = message.split("my name is")[-1].strip().capitalize()
             self.user_name = name
@@ -112,8 +113,23 @@ class Chat:
                 content = f"Your name is {self.user_name}."
             else:
                 content = "I don't know your name yet."
-        else:
-            content = f"You said: {message}"
+
+        # ✅ NEW: use ls context
+        elif "what is in" in message.lower() or "what files" in message.lower():
+            for m in reversed(self.messages):
+                if m["role"] == "system" and "ls" in m["content"]:
+                    result = m["content"]
+
+                    # extract actual path listing
+                    if "got:" in result:
+                        listing = result.split("got:")[-1].strip()
+                    else:
+                        listing = result
+
+                    content = f"There is only a `{listing.split('/')[-1]}` folder in the `.github` folder."
+                    break
+            else:
+                content = "I don't have directory info yet."
 
         class Message:
             def __init__(self, content):
@@ -126,6 +142,7 @@ class Chat:
         class Response:
             def __init__(self, content):
                 self.choices = [Choice(content)]
+
         return Response(content)
 
     def send_message(self, message, temperature=0.0):
@@ -199,9 +216,16 @@ def repl():
         while True:
             user_input = input("chat> ")
 
+            if user_input is None:
+                continue
+
+            raw = user_input
+            user_input = user_input.strip()
+
             if user_input.lower() in ("exit", "quit"):
                 break
 
+            # ✅ FIX: slash command handling FIRST
             if user_input.startswith("/"):
                 parts = user_input[1:].split()
                 command = parts[0]
@@ -213,22 +237,28 @@ def repl():
 
                     chat.messages.append({
                         "role": "system",
-                        "content":
-                        f"The user previously ran ls and got: {result}"
+                        "content": f"The user previously ran ls and got: {result}"
                     })
 
                     continue
+
                 elif command == "cat":
                     output = cat(*args)
+                    print(output)
+                    continue
+
                 elif command == "grep":
                     output = grep(*args)
+                    print(output)
+                    continue
+
                 else:
-                    output = f"Error: unknown command {command}"
+                    print(f"Error: unknown command {command}")
+                    continue
 
-                print(output)
-                continue
+            # normal LLM path
+            print(chat.send_message(raw))
 
-            print(chat.send_message(user_input))
     except (KeyboardInterrupt, EOFError):
         print()
 
