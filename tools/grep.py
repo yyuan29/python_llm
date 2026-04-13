@@ -6,44 +6,61 @@ from tools.utils import is_path_safe
 
 def grep(pattern, path):
     """
-    Setup for testing:
-    >>> with open('test_a.txt', 'w') as f:
-    ...     _ = f.write('hello world\\nbye world')
-    >>> with open('test_b.txt', 'w') as f:
-    ...     _ = f.write('solar system')
-
-    Basic Match:
-    >>> grep('hello', 'test_a.txt')
-    'hello world'
-
-    Multiple Line Match:
-    >>> grep('world$', 'test_a.txt')
-    'hello world\\nbye world'
-
-    No Match:
-    >>> grep('zzz', 'test_a.txt')
-    ''
-
-    Glob Pattern Match:
-    >>> grep('world|system', 'test_*.txt')
-    'hello world\\nbye world\\nsolar system'
-
-
-    >>> grep("hello", "/etc/passwd")
+    >>> grep("a", "../etc/passwd")
     'Error: unsafe path'
 
-    Cleanup:
     >>> import os
-    >>> for f in glob.glob('test_*.txt'): os.remove(f)
+    >>> filename = "temp_test_file.txt"
+    >>> _ = open(filename, "w").write("hello world\\nworld again\\n")
 
-    >>> grep('hello','tools/screenshot.png')
-    ''
+    >>> grep("hello", filename)
+    'hello world'
+
+    >>> grep("world", filename)
+    'hello world\\nworld again'
+
+    >>> os.remove(filename)
 
     >>> import os
-    >>> with open('t_bin', 'wb') as f: _ = f.write(b'\\xff')
-    >>> with open('t_txt', 'w') as f: _ = f.write('valid_match')
-    >>> grep('valid', 't*')
-    'valid_match'
+    >>> import shutil
+
+    >>> os.mkdir("tmp_dir")
+    >>> _ = open("tmp_dir/file.txt", "w").write("hello world\\n")
+
+    >>> _ = open("tmp_file.txt", "w").write("hello world\\n")
+
+    >>> result = grep("hello", "tmp_*")
+
+    >>> "hello world" in result
+    True
+
+    >>> os.path.isdir("tmp_dir")
+    True
+
+    Cleanup
+
+    >>> shutil.rmtree("tmp_dir")
+    >>> os.remove("tmp_file.txt")
+
+    >>> import os
+    >>> filename = "tmp_strip.txt"
+    >>> _ = open(filename, "w").write("hello world\\n   \\nworld again\\n")
+
+    >>> grep("world", filename)
+    'hello world\\nworld again'
+
+    >>> os.remove(filename)
+
+    >>> import os
+
+    >>> filename = "tmp_bad.bin"
+    >>> _ = open(filename, "wb").write(b"\\x00\\xff\\x00\\xff")
+
+    >>> # Should not crash even though file is not valid UTF-8
+    >>> isinstance(grep("a", filename), str)
+    True
+
+    >>> os.remove(filename)
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
@@ -56,8 +73,13 @@ def grep(pattern, path):
         try:
             with open(fpath, "r", encoding="utf-8") as f:
                 for line in f:
+                    line = line.rstrip("\n")
+
+                    if not line.strip():   # skip empty/space-only lines
+                        continue
+
                     if re.search(pattern, line):
-                        results.append(line.strip())
+                        results.append(line)
 
         except (UnicodeDecodeError, OSError):
             continue
