@@ -1,4 +1,5 @@
-__pycahce__
+__pycache__
+tools/__pycache__
 .env
 venv
 cmc_csci005_yourname.egg-info
