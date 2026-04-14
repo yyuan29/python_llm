@@ -11,4 +11,9 @@ A command-line chat agent that uses Groq's LLM API. The agent is able to hold co
 Here is a gif of a working example of my code: 
 ![Demo](output.gif)
 
+## Usage
+### Slash Commands
+
+Any tool name that starts with '/' will run directly.
+
 
