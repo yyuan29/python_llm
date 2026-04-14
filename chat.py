@@ -217,7 +217,7 @@ def repl():
     REPL ls command executes and prints result
 
     >>> import builtins
-    >>> inputs = ["/ls .", "exit"]
+    >>> inputs = ["/ls .github", "exit"]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -226,7 +226,7 @@ def repl():
     >>> builtins.input = fake_input
 
     >>> repl()
-    ./README.md ./__pycache__ ./chat.py ./empty.txt ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./test_projects ./tools ./utf16.txt
+    .github/workflows
     >>> builtins.input = old
 
     REPL cat command executes correctly
