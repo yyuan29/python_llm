@@ -7,14 +7,6 @@ load_dotenv()
 
 
 class Chat:
-    """
-    >>> chat = Chat(mock=True)
-    >>> chat.send_message('my name is bob', temperature=0.0)
-    "Hello Bob, it's nice to meet you. Is there something I can help you with or would you like to chat?"
-    >>> chat.send_message('what is my name?', temperature=0.0)
-    'Your name is Bob.'
-    """
-
     client = Groq()
 
     def __init__(self, mock=False):
