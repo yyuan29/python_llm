@@ -20,6 +20,7 @@ class Chat:
         """
         Initializes the chat with default system prompt and tool definitions.
         """
+        self.client = Groq()
         self.mock = mock
         self.messages = [
             {
@@ -116,11 +117,41 @@ class Chat:
 
         >>> def fake_create(**kwargs):
         ...     return FakeResponse()
+        
+        >>> chat = Chat(mock=False)
+
+        # mock response object
+        >>> class FakeMessage:
+        ...     def __init__(self):
+        ...         self.content = "ok"
+
+        >>> class FakeChoice:
+        ...     def __init__(self):
+        ...         self.message = FakeMessage()
+
+        >>> class FakeResponse:
+        ...     choices = [FakeChoice()]
+
+        # capture what gets passed into the API
+        >>> captured = {}
+        >>> def fake_create(**kwargs):
+        ...     captured["messages"] = kwargs["messages"]
+        ...     return FakeResponse()
 
         >>> chat.client.chat.completions.create = fake_create
 
-        >>> chat.send_message("What color is the sea?")
-        'Arrr, the sea be blue!'
+        # send message
+        >>> chat.send_message("hello")
+        'ok'
+
+        # test 1: message was appended
+        >>> chat.messages[-2]["content"]
+        'hello'
+
+        # test 2: API received updated messages
+        >>> captured["messages"][-1]["content"]
+        'ok'
+
         """
         self.messages.append({"role": "user", "content": message})
 
@@ -289,7 +320,6 @@ def repl():
             if user_input.lower() in ("exit", "quit"):
                 break
 
-            # ✅ FIX: slash command handling FIRST
             if user_input.startswith("/"):
                 parts = user_input[1:].split()
                 command = parts[0]
