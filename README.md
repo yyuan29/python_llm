@@ -10,6 +10,6 @@
 A command-line chat agent that uses Groq's LLM API. The agent is able to hold conversations and answer questions. It can also call built-in tools: calculate, cat, grep, and ls. 
 
 Here is a gif of a working example of my code: 
-
+<img src="screenrecording1">
 
 
