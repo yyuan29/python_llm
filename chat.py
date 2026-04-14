@@ -117,7 +117,7 @@ class Chat:
 
         >>> def fake_create(**kwargs):
         ...     return FakeResponse()
-        
+
         >>> chat = Chat(mock=False)
 
         # mock response object
