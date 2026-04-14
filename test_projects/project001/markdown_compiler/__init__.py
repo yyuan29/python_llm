@@ -3,7 +3,7 @@ This file contains functions that work on entire documents at a time
 (and not line-by-line).
 '''
 
-from markdown_compiler.util.line_functions import (
+from test_projects.project001.markdown_compiler.util.line_functions import (
     compile_headers,
     compile_strikethrough,
     compile_bold_stars,

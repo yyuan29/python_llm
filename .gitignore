@@ -1,4 +1,10 @@
+__pycahce__
 .env
 venv
 cmc_csci005_yourname.egg-info
 dist
+t_bin
+t_txt
+test1.txt
+test2.txt
+utf16.txt
