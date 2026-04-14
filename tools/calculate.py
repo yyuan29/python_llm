@@ -1,6 +1,7 @@
 def calculate(self):
     """
     Evaluate a mathematical expression.
+    
     >>> calculate("1 + 2")
     '3'
 

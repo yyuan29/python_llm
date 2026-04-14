@@ -6,6 +6,8 @@ from tools.utils import is_path_safe
 
 def grep(pattern, path):
     """
+    Searches files for regex matches and returns matching lines.
+    
     >>> grep("a", "../etc/passwd")
     'Error: unsafe path'
 

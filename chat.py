@@ -7,9 +7,19 @@ load_dotenv()
 
 
 class Chat:
+    """
+    A chat agent that communicates with an LLM and supports tool usage.
+
+    The Chat class stores conversation history and allows sending messages
+    to an LLM. It also supports tool calling (ls, cat, grep, calculate)
+    through structured tool definitions.
     client = Groq()
+    """
 
     def __init__(self, mock=False):
+        """
+        Initializes the chat with default system prompt and tool definitions.
+        """
         self.mock = mock
         self.messages = [
             {
@@ -90,6 +100,7 @@ class Chat:
 
     def send_message(self, message, temperature=0.0):
         """
+        Sends a message to the LLM and returns the assistant's response.
         >>> chat = Chat(mock=False)
 
         >>> class FakeMessage:
@@ -126,6 +137,10 @@ class Chat:
 
 def repl():
     '''
+    Runs an interactive REPL supporting slash commands and LLM chat.
+
+    Slash commands (/ls, /cat, /grep) are executed directly without calling
+    the LLM, while normal input is sent to the chat model.
     ----------------------------------------------------
     TEST 1: UNKNOWN SLASH COMMAND
     ----------------------------------------------------
@@ -202,6 +217,10 @@ def repl():
 
     >>> builtins.input = old
 
+    ----------------------------------------------------
+    TEST 5: LS COMMAND
+    ----------------------------------------------------
+
     REPL ls command executes and prints result
 
     >>> import builtins
@@ -216,6 +235,10 @@ def repl():
     >>> repl()
     .github/workflows
     >>> builtins.input = old
+
+    ----------------------------------------------------
+    TEST 6: CAT COMMAND (FILE NOT FOUND)
+    ----------------------------------------------------
 
     REPL cat command executes correctly
 
@@ -232,6 +255,10 @@ def repl():
     Error: File 'tmp.txt' not found.
 
     >>> builtins.input = old
+
+    ----------------------------------------------------
+    TEST 6: GREP COMMAND (NO MATCH)
+    ----------------------------------------------------
 
     REPL grep command executes correctly
 
