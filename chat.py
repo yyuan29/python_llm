@@ -10,12 +10,12 @@ class Chat:
     """
     >>> chat = Chat(mock=True)
     >>> chat.send_message('my name is bob', temperature=0.0)
-    'Hello Bob, I have saved your name.'
+    "Hello Bob, it's nice to meet you. Is there something I can help you with or would you like to chat?"
     >>> chat.send_message('what is my name?', temperature=0.0)
     'Your name is Bob.'
     >>> chat2 = Chat(mock=True)
     >>> chat2.send_message('what is my name?', temperature=0.0)
-    "I don't know your name yet."
+    "I don't have any information about your name as our conversation has just started. If you'd like to share your name, I'd be happy to learn it."
     """
 
     client = Groq()
@@ -99,65 +99,6 @@ class Chat:
         ]
         self.user_name = None
 
-    def _mock_completion(self, message):
-        """"
-        >>> chat = Chat(mock=True)
-        >>> chat.messages.append({
-        ...     "role": "system",
-        ...     "content": "The user previously ran ls and got: .github/workflows"
-        ... })
-
-        >>> chat.send_message("what is in the github folder?")
-        'There is only a `workflows` folder in the `.github` folder.'
-
-        No ls context → fallback branch
-
-        >>> chat2 = Chat(mock=True)
-        >>> chat2.send_message("what files are in the github folder?")
-        "I don't have directory info yet."
-        """
-
-        # store name
-        if "my name is" in message.lower():
-            name = message.split("my name is")[-1].strip().capitalize()
-            self.user_name = name
-            content = f"Hello {name}, I have saved your name."
-
-        elif "what is my name" in message.lower():
-            if self.user_name:
-                content = f"Your name is {self.user_name}."
-            else:
-                content = "I don't know your name yet."
-
-        elif "what is in" in message.lower() or "what files" in message.lower():
-            for m in reversed(self.messages):
-                if m["role"] == "system" and "ls" in m["content"]:
-                    result = m["content"]
-
-                    # extract actual path listing
-                    if "got:" in result:
-                        listing = result.split("got:")[-1].strip()
-                    else:
-                        listing = result
-
-                    content = f"There is only a `{listing.split('/')[-1]}` folder in the `.github` folder."
-                    break
-            else:
-                content = "I don't have directory info yet."
-
-        class Message:
-            def __init__(self, content):
-                self.content = content
-
-        class Choice:
-            def __init__(self, content):
-                self.message = Message(content)
-
-        class Response:
-            def __init__(self, content):
-                self.choices = [Choice(content)]
-
-        return Response(content)
 
     def send_message(self, message, temperature=0.0):
         """
@@ -184,10 +125,7 @@ class Chat:
         """
         self.messages.append({"role": "user", "content": message})
 
-        if self.mock:
-            chat_completion = self._mock_completion(message)
-        else:
-            chat_completion = self.client.chat.completions.create(
+        chat_completion = self.client.chat.completions.create(
                 messages=self.messages,
                 model="llama-3.1-8b-instant",
                 temperature=temperature,
@@ -288,7 +226,7 @@ def repl():
     >>> builtins.input = fake_input
 
     >>> repl()
-    ./README.md ./__pycache__ ./chat.py ./empty.txt ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./test_projects ./tools ./utf16.txt
+    ./README.md ./__pycache__ ./chat.py ./dist ./empty.txt ./htmlcov ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./test_projects ./tools ./utf16.txt
     
     >>> builtins.input = old
 
@@ -332,7 +270,6 @@ def repl():
             if user_input is None:
                 continue
 
-            raw = user_input
             user_input = user_input.strip()
 
             if user_input.lower() in ("exit", "quit"):
@@ -370,7 +307,7 @@ def repl():
                     continue
 
             # normal LLM path
-            print(chat.send_message(raw))
+            print(chat.send_message(user_input))
 
     except (KeyboardInterrupt, EOFError):
         print()

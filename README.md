@@ -7,6 +7,9 @@
 
 [![coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](#)
 
-This is my python llm project. It is a chatbot library that uses Groq LLM and communicates with a humanisque tone. 
+A command-line chat agent that uses Groq's LLM API. The agent is able to hold conversations and answer questions. It can also call built-in tools: calculate, cat, grep, and ls. 
 
-Check out my project on [PyPi](https://pypi.org/project/cmc-csci005-yourname/#description)
+Here is a gif of a working example of my code: 
+<img src="screenrecording1">
+
+
