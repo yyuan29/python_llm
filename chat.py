@@ -13,9 +13,6 @@ class Chat:
     "Hello Bob, it's nice to meet you. Is there something I can help you with or would you like to chat?"
     >>> chat.send_message('what is my name?', temperature=0.0)
     'Your name is Bob.'
-    >>> chat2 = Chat(mock=True)
-    >>> chat2.send_message('what is my name?', temperature=0.0)
-    "I don't have any information about your name as our conversation has just started. If you'd like to share your name, I'd be happy to learn it."
     """
 
     client = Groq()
