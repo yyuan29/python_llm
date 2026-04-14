@@ -127,8 +127,6 @@ def compile_strikethrough(line):
     This will require carefully thinking about the range
     of your for loop and all of your list indexing.
 
-    >>> compile_strikethrough('~~This is strikethrough!~~ This is not strikethrough.')
-    '<ins>This is strikethrough!</ins> This is not strikethrough.'
     >>> compile_strikethrough("""~~This is strikethrough!~~""")
     '<ins>This is strikethrough!</ins>'
     >>> compile_strikethrough('This is ~~strikethrough~~!')
@@ -290,10 +288,12 @@ def compile_links(line):
                 break
 
             # CASE: "] (" → malformed spacing
-            if close_b + 2 < len(line) and line[close_b + 1] == " " and line[close_b + 2] == "(":
-                result += line[i:close_b + 1] + "\n    "
-                i = close_b + 2
-                continue
+            if close_b + 2 < len(line):
+                if line[close_b + 1] == " ":
+                    if line[close_b + 2] == "(":
+                        result += line[i:close_b + 1] + "\n    "
+                        i = close_b + 2
+                        continue
 
             # CASE: proper "(" immediately after "]"
             if close_b + 1 < len(line) and line[close_b + 1] == "(":

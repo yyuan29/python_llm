@@ -88,7 +88,6 @@ class Chat:
         ]
         self.user_name = None
 
-
     def send_message(self, message, temperature=0.0):
         """
         >>> chat = Chat(mock=False)
@@ -275,7 +274,7 @@ def repl():
 
                     chat.messages.append({
                         "role": "system",
-                        "content": f"The user previously ran ls and got: {result}"
+                        "content": f"ls output: {result}"
                     })
 
                     continue
