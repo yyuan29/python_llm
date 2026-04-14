@@ -226,7 +226,7 @@ def repl():
     >>> builtins.input = fake_input
 
     >>> repl()
-    ./README.md ./__pycache__ ./chat.py ./pyproject.toml ./requirements.txt ./test_projects ./tools
+   ./README.md ./__pycache__ ./chat.py ./empty.txt ./pyproject.toml ./requirements.txt ./t_bin ./t_txt ./test1.txt ./test2.txt ./test_projects ./tools ./utf16.txt
     >>> builtins.input = old
 
     REPL cat command executes correctly
