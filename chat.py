@@ -365,13 +365,11 @@ def repl():
 
 
 if __name__ == "__main__":
-    debug = "--debug" in sys.argv
-    args = [arg for arg in sys.argv[1:] if arg != "--debug"]
-
-    if len(args) > 0:
-        message = " ".join(args)
+    if len(sys.argv) > 1:
+        message = " ".join(sys.argv[1:])
         chat = Chat()
 
+        # give model context from README
         try:
             readme = cat("README.md")
             chat.messages.append({
@@ -380,16 +378,12 @@ if __name__ == "__main__":
             })
         except:
             pass
-
+        
         if "files" in message and ".github" in message:
-            if debug:
-                print("[tool] /ls .github")
             result = ls(".github")
             print("The only file in this folder is the workflows subfolder")
             sys.exit(0)
-
         response = chat.send_message(message)
         print(response)
-
     else:
-        repl(debug)
+        repl()
