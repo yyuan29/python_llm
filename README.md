@@ -26,5 +26,6 @@ The files in the tools folder are: calculate.py, cat.py, grep.py, ls.py, and uti
 chat> /calculate 2*6
 12
 ```
+The two examples above are good examples because they show two things. (1) The '/' works properly and (2) The functions are able to demonstrate a reasonable output.
 
 
