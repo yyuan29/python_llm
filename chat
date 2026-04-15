@@ -364,22 +364,23 @@ def repl():
         print()
 
 
+def handle_cli():
+    """
+    Runs a single message from the command line instead of REPL.
+    """
+    chat = Chat(mock=False)
+
+    # get full message from command line
+    user_input = " ".join(sys.argv[1:]).strip()
+
+    if not user_input:
+        return
+
+    # send directly to LLM
+    print(chat.send_message(user_input))
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        message = " ".join(sys.argv[1:])
-        chat = Chat()
-
-        # give model context from README
-        try:
-            readme = cat("README.md")
-            chat.messages.append({
-                "role": "system",
-                "content": f"Here is the README:\n{readme}"
-            })
-        except:
-            pass
-
-        response = chat.send_message(message)
-        print(response)
+        handle_cli()   # run single message
     else:
         repl()
