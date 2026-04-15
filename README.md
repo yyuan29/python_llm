@@ -22,5 +22,9 @@ tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/screenshot.png t
 chat> what files are in the tools folder?
 The files in the tools folder are: calculate.py, cat.py, grep.py, ls.py, and utils.py. There is also a screenshot.png file.
 ```
+```
+chat> /calculate 2*6
+12
+```
 
 

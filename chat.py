@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from tools.ls import ls
 from tools.cat import cat
 from tools.grep import grep
+from tools.calculate import calculate
 load_dotenv()
 
 
@@ -334,6 +335,11 @@ def repl():
                         "content": f"ls output: {result}"
                     })
 
+                    continue
+
+                elif command == "calculate":
+                    result = calculate(*args)
+                    print(result)
                     continue
 
                 elif command == "cat":
