@@ -16,4 +16,11 @@ Here is a gif of a working example of my code:
 
 Any tool name that starts with '/' will run directly.
 
+```
+chat> /ls tools
+tools/calculate.py tools/cat.py tools/grep.py tools/ls.py tools/screenshot.png tools/utils.py
+chat> what files are in the tools folder?
+The files in the tools folder are: calculate.py, cat.py, grep.py, ls.py, and utils.py. There is also a screenshot.png file.
+```
+
 
