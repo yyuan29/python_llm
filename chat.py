@@ -376,9 +376,8 @@ if __name__ == "__main__":
                 "role": "system",
                 "content": f"Here is the README:\n{readme}"
             })
-        except:
+        except FileNotFoundError:
             pass
-        
         if "files" in message and ".github" in message:
             result = ls(".github")
             print("The only file in this folder is the workflows subfolder")
