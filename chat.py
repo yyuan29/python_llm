@@ -1,3 +1,5 @@
+import gnureadline as readline
+import os
 import sys
 from groq import Groq
 from dotenv import load_dotenv
@@ -5,6 +7,8 @@ from tools.ls import ls
 from tools.cat import cat
 from tools.grep import grep
 from tools.calculate import calculate
+from tools.compact import compact
+
 load_dotenv()
 
 
@@ -167,6 +171,45 @@ class Chat:
         self.messages.append({"role": "assistant", "content": result})
         return result
 
+COMMANDS = ["ls", "cat", "grep", "calculate", "compact"]
+
+def completer(text, state):
+    buffer = readline.get_line_buffer()
+    parts = buffer.split()
+
+    # 1. COMPLETING COMMANDS (If we haven't typed a space yet)
+    if len(parts) <= 1:
+        # We only care about what comes after the slash
+        cmd_prefix = text.lstrip('/')
+        matches = [
+            c for c in COMMANDS
+            if c.startswith(cmd_prefix)
+        ]
+        return matches[state] if state < len(matches) else None
+
+    # 2. COMPLETING PATHS (If we have typed a space, e.g., "/ls .g")
+    else:
+        # text is the current word being completed (e.g., ".g")
+        # We look in the directory provided by 'text'
+        dirname = os.path.dirname(text) or "."
+        basename = os.path.basename(text)
+
+        try:
+            entries = os.listdir(dirname)
+        except OSError:
+            return None
+
+        matches = []
+        for entry in entries:
+            if entry.startswith(basename):
+                # We return the full path relative to the input
+                full_path = os.path.join(dirname, entry)
+                if os.path.isdir(full_path):
+                    full_path += "/"
+                matches.append(full_path)
+
+        return matches[state] if state < len(matches) else None
+    
 
 def repl():
     '''
@@ -309,6 +352,8 @@ def repl():
 
     >>> builtins.input = old
     '''
+    readline.set_completer(completer)
+    readline.parse_and_bind("tab: complete")
     chat = Chat(mock=True)
     try:
         while True:
@@ -351,6 +396,11 @@ def repl():
                 elif command == "grep":
                     output = grep(*args)
                     print(output)
+                    continue
+
+                elif command == "compact":
+                    summary = compact(chat)
+                    print(summary)
                     continue
 
                 else:
