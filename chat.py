@@ -1,4 +1,4 @@
-import gnureadline as readline
+import readline
 import os
 import sys
 from groq import Groq
