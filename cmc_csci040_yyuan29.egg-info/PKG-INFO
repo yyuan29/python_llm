@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: cmc-csci040-yyuan29
-Version: 0.9.0
+Version: 0.10.0
 Summary: A pirate chatbot
 Author-email: Yumo Yuan <yyuan29@cmc.edu>
 Requires-Python: >=3.10

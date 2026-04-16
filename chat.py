@@ -171,7 +171,9 @@ class Chat:
         self.messages.append({"role": "assistant", "content": result})
         return result
 
+
 COMMANDS = ["ls", "cat", "grep", "calculate", "compact"]
+
 
 def completer(text, state):
     buffer = readline.get_line_buffer()
@@ -209,7 +211,7 @@ def completer(text, state):
                 matches.append(full_path)
 
         return matches[state] if state < len(matches) else None
-    
+
 
 def repl():
     '''
