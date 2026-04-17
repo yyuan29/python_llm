@@ -42,6 +42,9 @@ def compact(chat):
     # Replace full history with compacted memory
     chat.messages = [
         {
+            # this is mostly correct,
+            # but you probably shouldn't be overwriting the original system prompt;
+            # any outputs will no longer be restricted to 1-2 sentences
             "role": "system",
             "content": f"Conversation summary:\n{summary}",
         }

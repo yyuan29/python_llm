@@ -19,7 +19,6 @@ class Chat:
     The Chat class stores conversation history and allows sending messages
     to an LLM. It also supports tool calling (ls, cat, grep, calculate)
     through structured tool definitions.
-    client = Groq()
     """
 
     def __init__(self, mock=False):
@@ -36,6 +35,12 @@ class Chat:
         ]
 
         self.tools = [
+            # these schemas for the tools should be in
+            # the same file where the tool function
+            # is defined; the general principle
+            # is that everything about a function
+            # should always be in the same place
+            # so that future changes are easier to do
             {
                 "type": "function",
                 "function": {
@@ -108,6 +113,8 @@ class Chat:
     def send_message(self, message, temperature=0.0):
         """
         Sends a message to the LLM and returns the assistant's response.
+
+        # these are pretty janky test cases...
         >>> chat = Chat(mock=False)
 
         >>> class FakeMessage:
@@ -176,6 +183,11 @@ COMMANDS = ["ls", "cat", "grep", "calculate", "compact"]
 
 
 def completer(text, state):
+    '''
+    explain the purpose;
+    this function should be relatively easy to write
+    high quality test cases for as well
+    '''
     buffer = readline.get_line_buffer()
     parts = buffer.split()
 
@@ -224,8 +236,11 @@ def repl():
     ----------------------------------------------------
     Covers: `Error: unknown command`
 
+    # an "/exit"/g command is a reasonable way to support
+    # leaving the repl; but it should be /exit
+    # to line up with all of your other slash commands
     >>> import builtins
-    >>> inputs = ["/test", "exit"]
+    >>> inputs = ["/test", "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -245,7 +260,7 @@ def repl():
     Ensures consistent behavior for repeated unknown commands
 
     >>> import builtins
-    >>> inputs = ["/test", "exit"]
+    >>> inputs = ["/test", "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -283,7 +298,7 @@ def repl():
     Covers None input branch in REPL
 
     >>> import builtins
-    >>> inputs = [None, "exit"]
+    >>> inputs = [None, "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -302,7 +317,7 @@ def repl():
     REPL ls command executes and prints result
 
     >>> import builtins
-    >>> inputs = ["/ls .github", "exit"]
+    >>> inputs = ["/ls .github", "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -321,7 +336,7 @@ def repl():
     REPL cat command executes correctly
 
     >>> import builtins
-    >>> inputs = ["/cat tmp.txt", "exit"]
+    >>> inputs = ["/cat tmp.txt", "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -341,7 +356,7 @@ def repl():
     REPL grep command executes correctly
 
     >>> import builtins
-    >>> inputs = ["/grep hello tmp.txt", "exit"]
+    >>> inputs = ["/grep hello tmp.txt", "/exit"/g]
 
     >>> def fake_input(prompt):
     ...     return inputs.pop(0)
@@ -366,7 +381,7 @@ def repl():
 
             user_input = user_input.strip()
 
-            if user_input.lower() in ("exit", "quit"):
+            if user_input.lower() in ("/exit"/g, "/quit"/g):
                 break
 
             if user_input.startswith("/"):
@@ -376,38 +391,28 @@ def repl():
 
                 if command == "ls":
                     result = ls(*args)
-                    print(result)
-
-                    chat.messages.append({
-                        "role": "system",
-                        "content": f"ls output: {result}"
-                    })
-
-                    continue
-
+                    # why is only ls output being appended here but not any of the other functions?
+                    # the llm won't be able to see any of their outputs,
+                    # and so won't be able to answer questions based on the output
+                    # I've modified the code to be a bit cleaner (and correct),
+                    # but you could do even better using a dictionary to map the strings to function calls
+                    # like they do in the tutorial
                 elif command == "calculate":
                     result = calculate(*args)
-                    print(result)
-                    continue
-
                 elif command == "cat":
-                    output = cat(*args)
-                    print(output)
-                    continue
-
+                    result = cat(*args)
                 elif command == "grep":
-                    output = grep(*args)
-                    print(output)
-                    continue
-
+                    result = grep(*args)
                 elif command == "compact":
-                    summary = compact(chat)
-                    print(summary)
-                    continue
-
+                    result = compact(chat)
                 else:
                     print(f"Error: unknown command {command}")
                     continue
+                print(result)
+                chat.messages.append({
+                    "role": "system",
+                    "content": f"ls output: {result}"
+                })
 
             # normal LLM path
             print(chat.send_message(user_input))
@@ -417,6 +422,7 @@ def repl():
 
 
 if __name__ == "__main__":
+    # better to use argparse to get the command line args
     if len(sys.argv) > 1:
         message = " ".join(sys.argv[1:])
         chat = Chat()
@@ -430,10 +436,7 @@ if __name__ == "__main__":
             })
         except FileNotFoundError:
             pass
-        if "files" in message and ".github" in message:
-            result = ls(".github")
-            print("The only file in this folder is the workflows subfolder")
-            sys.exit(0)
+        # hardcoding responses is not correct
         response = chat.send_message(message)
         print(response)
     else:
