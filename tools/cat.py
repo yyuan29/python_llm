@@ -1,10 +1,15 @@
 from tools.utils import is_path_safe
 
 
+# bad practice to call a variable name input for 2 reasons:
+# 1. it is not very descriptive (path would be better)
+# 2. input is a built-in python function (you use it in repl), and "shadowing" the built-in with your own variable is confusing and will lead to errors
 def cat(input):
     '''
         Opens a file and returns its contents as a string.
 
+        # it would be much better to just actually create a file, store it in your repo, and then cat the file
+        # this same comment goes for your grep
         >>> # Basic file read
         >>> with open('test1.txt', 'w') as f:
         ...     _ = f.write('hello world')
