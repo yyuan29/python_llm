@@ -211,7 +211,7 @@ def repl():
     >>> inputs = ["/", "/exit"]
     >>> builtins.input = fake_input
     >>> repl()
-    Error: unknown command 
+    Error: unknown command
     >>> builtins.input = old
 
 
