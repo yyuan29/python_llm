@@ -185,6 +185,42 @@ def repl():
     >>> builtins.input = fake_input
     >>> repl()
     >>> builtins.input = old
+
+    >>> import builtins
+
+    >>> # 1. unknown command
+    >>> inputs = ["/fakecmd", "/exit"]
+    >>> def fake_input(_):
+    ...     return inputs.pop(0)
+    >>> old = builtins.input
+    >>> builtins.input = fake_input
+    >>> repl()
+    Error: unknown command fakecmd
+    >>> builtins.input = old
+
+
+    >>> # 2. valid command (should NOT trigger error)
+    >>> inputs = ["/ls .github", "/exit"]
+    >>> builtins.input = fake_input
+    >>> repl()
+    .github/workflows
+    >>> builtins.input = old
+
+
+    >>> # 3. edge case: just "/"
+    >>> inputs = ["/", "/exit"]
+    >>> builtins.input = fake_input
+    >>> repl()
+    Error: unknown command
+    >>> builtins.input = old
+
+
+    >>> # 4. edge case: whitespace command
+    >>> inputs = ["/   ", "/exit"]
+    >>> builtins.input = fake_input
+    >>> repl()
+    Error: unknown command
+    >>> builtins.input = old
     """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
@@ -213,6 +249,10 @@ def repl():
 
             if user_input.startswith("/"):
                 parts = user_input[1:].split()
+                if len(parts) == 0:
+                    print("Error: unknown command")
+                    continue
+
                 command = parts[0]
                 args = parts[1:]
 
