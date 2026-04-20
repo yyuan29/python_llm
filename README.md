@@ -49,3 +49,15 @@ def calculate(self):
     Evaluate a mathematical expression.
 ...
 ```
+`/compact` summarizes the entire conversation:
+```
+chat> Hello!
+Hello, it's nice to meet you. How can I assist you today?
+chat> My name is Yumo. How are you?
+Nice to meet you, Yumo. I'm functioning well, thank you for asking, and I'm here to help with any questions or topics you'd like to discuss.
+chat> What does the utils.py file do?
+The `utils.py` file is a common Python module that contains various utility functions, often used across multiple projects or scripts, to perform tasks such as data manipulation, file operations, string processing, and more.
+chat> /compact
+Yumo asked about the purpose of a Python file named `utils.py`, and I explained that it typically contains utility functions for tasks like data manipulation and file operations.
+```
+
