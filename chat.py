@@ -26,7 +26,7 @@ class Chat:
             },
         ]
 
-        self.tools = []  # (kept simple since you're not using tool calling here)
+        self.tools = []
         self.user_name = None
 
     def send_message(self, message, temperature=0.0):
@@ -79,15 +79,53 @@ def completer(text, state):
 
     - Completes slash commands like /ls, /cat, etc.
     - Completes file paths after a command (e.g., /ls .git)
+
+    >>> import readline
+
+    >>> # Command completion
+    >>> readline.get_line_buffer = lambda: "/l"
+    >>> completer("l", 0)
+    'ls'
+
+    >>> readline.get_line_buffer = lambda: "/c"
+    >>> completer("c", 0) in ["cat", "calculate", "compact"]
+    True
+
+    >>> readline.get_line_buffer = lambda: "/zzz"
+    >>> completer("zzz", 0) is None
+    True
+
+    >>> # Path completion
+    >>> import os
+    >>> os.mkdir("comp_test_dir")
+    >>> with open("comp_test_dir/file1.txt", "w") as f:
+    ...     _ = f.write("hi")
+
+    >>> readline.get_line_buffer = lambda: "/ls comp_test_dir/f"
+    >>> result = completer("comp_test_dir/f", 0)
+    >>> result.startswith("comp_test_dir/file1.txt")
+    True
+
+    >>> os.mkdir("comp_test_dir/subdir")
+    >>> readline.get_line_buffer = lambda: "/ls comp_test_dir/s"
+    >>> result = completer("comp_test_dir/s", 0)
+    >>> result.endswith("/")
+    True
+
+    >>> readline.get_line_buffer = lambda: "/ls does_not_exist/f"
+    >>> completer("does_not_exist/f", 0) is None
+    True
     """
     buffer = readline.get_line_buffer()
     parts = buffer.split()
 
+    # Command completion
     if len(parts) <= 1:
         cmd_prefix = text.lstrip('/')
         matches = [c for c in COMMANDS if c.startswith(cmd_prefix)]
         return matches[state] if state < len(matches) else None
 
+    # Path completion
     dirname = os.path.dirname(text) or "."
     basename = os.path.basename(text)
 
