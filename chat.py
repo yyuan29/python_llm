@@ -289,7 +289,7 @@ def repl():
                     print(chat.send_message(user_input))
             else:
                 print(chat.send_message(user_input))
-    
+
     except (KeyboardInterrupt, EOFError):
         print()
 
