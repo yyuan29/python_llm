@@ -33,13 +33,8 @@ chat> /calculate 2*6
 
 `/grep` searches your codebase with regex and feeds the output into the conversation:
 ```
-chat> /grep ^def tools/*.py
-def calculate(self):
-def cat(path):
-def compact(chat):
-def grep(pattern, path):
-def ls(folder="."):
-def is_path_safe(path):
+chat> /grep ^def test_projects/project001/markdown_compiler/__main__.py
+def main():
 ```
 `/cat` returns the raw files:
 ```

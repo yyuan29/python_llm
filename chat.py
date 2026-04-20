@@ -211,7 +211,7 @@ def repl():
     >>> inputs = ["/", "/exit"]
     >>> builtins.input = fake_input
     >>> repl()
-    Error: unknown command
+    Error: unknown command 
     >>> builtins.input = old
 
 
@@ -274,8 +274,22 @@ def repl():
 
                 continue
 
-            print(chat.send_message(user_input))
+            if "/" in user_input:
+                try:
+                    structure = ls(user_input.split()[-1])
+                    prompt = f"""
+            This is a directory listing:
 
+            {structure}
+
+            Explain what this project/folder is about.
+            """
+                    print(chat.send_message(prompt))
+                except Exception:
+                    print(chat.send_message(user_input))
+            else:
+                print(chat.send_message(user_input))
+    
     except (KeyboardInterrupt, EOFError):
         print()
 
