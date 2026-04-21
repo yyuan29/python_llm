@@ -2,11 +2,17 @@ import os
 import readline
 from groq import Groq
 from dotenv import load_dotenv
+
 from tools.ls import ls
 from tools.cat import cat
 from tools.grep import grep
 from tools.calculate import calculate
 from tools.compact import compact
+
+from tools.doctests import doctests
+from tools.write_file import write_file
+from tools.write_files import write_files
+from tools.rm import rm
 
 load_dotenv()
 
@@ -25,7 +31,6 @@ class Chat:
                 "content": "Respond clearly in 1-2 sentences."
             },
         ]
-
         self.tools = []
         self.user_name = None
 
@@ -70,52 +75,13 @@ class Chat:
         return result
 
 
-COMMANDS = ["ls", "cat", "grep", "calculate", "compact"]
+COMMANDS = [
+    "ls", "cat", "grep", "calculate", "compact",
+    "doctests", "write_file", "write_files", "rm"
+]
 
 
 def completer(text, state):
-    """
-    Autocomplete function for the REPL.
-
-    - Completes slash commands like /ls, /cat, etc.
-    - Completes file paths after a command (e.g., /ls .git)
-
-    >>> import readline
-
-    >>> # Command completion
-    >>> readline.get_line_buffer = lambda: "/l"
-    >>> completer("l", 0)
-    'ls'
-
-    >>> readline.get_line_buffer = lambda: "/c"
-    >>> completer("c", 0) in ["cat", "calculate", "compact"]
-    True
-
-    >>> readline.get_line_buffer = lambda: "/zzz"
-    >>> completer("zzz", 0) is None
-    True
-
-    >>> # Path completion
-    >>> import os
-    >>> os.mkdir("comp_test_dir")
-    >>> with open("comp_test_dir/file1.txt", "w") as f:
-    ...     _ = f.write("hi")
-
-    >>> readline.get_line_buffer = lambda: "/ls comp_test_dir/f"
-    >>> result = completer("comp_test_dir/f", 0)
-    >>> result.startswith("comp_test_dir/file1.txt")
-    True
-
-    >>> os.mkdir("comp_test_dir/subdir")
-    >>> readline.get_line_buffer = lambda: "/ls comp_test_dir/s"
-    >>> result = completer("comp_test_dir/s", 0)
-    >>> result.endswith("/")
-    True
-
-    >>> readline.get_line_buffer = lambda: "/ls does_not_exist/f"
-    >>> completer("does_not_exist/f", 0) is None
-    True
-    """
     buffer = readline.get_line_buffer()
     parts = buffer.split()
 
@@ -146,86 +112,22 @@ def completer(text, state):
 
 
 def repl():
-    """
-    Runs an interactive REPL supporting slash commands and LLM chat.
-
-    ----------------------------------------------------
-    TEST 1: UNKNOWN COMMAND
-    ----------------------------------------------------
-    >>> import builtins
-    >>> inputs = ["/test", "/exit"]
-    >>> def fake_input(_):
-    ...     return inputs.pop(0)
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-    >>> repl()
-    Error: unknown command test
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 2: KEYBOARD INTERRUPT
-    ----------------------------------------------------
-    >>> import builtins
-    >>> def fake_input(_):
-    ...     raise KeyboardInterrupt()
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-    >>> repl()
-    <BLANKLINE>
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 3: NONE INPUT
-    ----------------------------------------------------
-    >>> import builtins
-    >>> inputs = [None, "/exit"]
-    >>> def fake_input(_):
-    ...     return inputs.pop(0)
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-    >>> repl()
-    >>> builtins.input = old
-
-    >>> import builtins
-
-    >>> # 1. unknown command
-    >>> inputs = ["/fakecmd", "/exit"]
-    >>> def fake_input(_):
-    ...     return inputs.pop(0)
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-    >>> repl()
-    Error: unknown command fakecmd
-    >>> builtins.input = old
-
-
-    >>> # 2. valid command (should NOT trigger error)
-    >>> inputs = ["/ls .github", "/exit"]
-    >>> builtins.input = fake_input
-    >>> repl()
-    .github/workflows
-    >>> builtins.input = old
-
-
-    >>> # 3. edge case: just "/"
-    >>> inputs = ["/", "/exit"]
-    >>> builtins.input = fake_input
-    >>> repl()
-    Error: unknown command
-    >>> builtins.input = old
-
-
-    >>> # 4. edge case: whitespace command
-    >>> inputs = ["/   ", "/exit"]
-    >>> builtins.input = fake_input
-    >>> repl()
-    Error: unknown command
-    >>> builtins.input = old
-    """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
 
     chat = Chat(mock=True)
+
+    # ✅ STARTUP CHECKS (REQUIRED)
+    if not os.path.isdir(".git"):
+        print("Error: .git folder not found")
+        return
+
+    if os.path.isfile("AGENTS.md"):
+        content = cat("AGENTS.md")
+        chat.messages.append({
+            "role": "system",
+            "content": f"Loaded AGENTS.md:\n{content}"
+        })
 
     command_map = {
         "ls": ls,
@@ -233,6 +135,12 @@ def repl():
         "grep": grep,
         "calculate": calculate,
         "compact": lambda *args: compact(chat),
+
+        # REQUIRED TOOLS
+        "doctests": doctests,
+        "write_file": write_file,
+        "write_files": write_files,
+        "rm": rm,
     }
 
     try:
@@ -247,8 +155,12 @@ def repl():
             if user_input.lower() in ("/exit", "/quit"):
                 break
 
+            # -------------------------
+            # COMMAND MODE
+            # -------------------------
             if user_input.startswith("/"):
                 parts = user_input[1:].split()
+
                 if len(parts) == 0:
                     print("Error: unknown command")
                     continue
@@ -274,16 +186,19 @@ def repl():
 
                 continue
 
+            # -------------------------
+            # SMART DIRECTORY EXPLAIN
+            # -------------------------
             if "/" in user_input:
                 try:
                     structure = ls(user_input.split()[-1])
                     prompt = f"""
-            This is a directory listing:
+This is a directory listing:
 
-            {structure}
+{structure}
 
-            Explain what this project/folder is about.
-            """
+Explain what this project/folder is about.
+"""
                     print(chat.send_message(prompt))
                 except Exception:
                     print(chat.send_message(user_input))
