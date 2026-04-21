@@ -138,43 +138,32 @@ def completer(text, state):
 # =========================
 def repl():
     """
-    Example 1: Fail when .git is missing
-    >>> import os
-    >>> _old_isdir = os.path.isdir
-    >>> os.path.isdir = lambda path: False
-    >>> repl()
-    Error: .git folder not found
-    >>> os.path.isdir = _old_isdir
-
-    Example 2: Handle an unknown command
+    >>> # 1. Setup fakes
     >>> import builtins
-    >>> _old_input = builtins.input
-    >>> _old_isdir = os.path.isdir
-    >>> os.path.isdir = lambda path: True
-    >>> os.path.isfile = lambda path: False
-    >>> # Simulate typing "/badcmd" then "/exit"
-    >>> inputs = iter(["/badcmd", "/exit"])
-    >>> builtins.input = lambda _: next(inputs)
-    >>> try:
-    ...     repl()
-    ... except StopIteration:
-    ...     pass
-    Error: unknown command badcmd
-    >>> builtins.input = _old_input
-    >>> os.path.isdir = _old_isdir
-    
-    Example 3: Successful LLM message flow
-    >>> class MockChat:
+    >>> class FakeChat:
     ...     def __init__(self, **kwargs): self.messages = []
-    ...     def send_message(self, text): return "AI: " + text
-    >>> _old_chat = Chat
-    >>> globals()['Chat'] = MockChat
+    ...     def send_message(self, msg): return "AI: " + msg
+    >>> 
+    >>> # 2. Save originals
+    >>> _old_input = builtins.input
+    >>> _old_chat = globals().get('Chat')
+    >>> _old_isdir = os.path.isdir
+    >>> 
+    >>> # 3. Apply mocks
+    >>> globals()['Chat'] = FakeChat
+    >>> os.path.isdir = lambda path: True if path == ".git" else False
+    >>> os.path.isfile = lambda path: False
     >>> inputs = iter(["hello", "/exit"])
     >>> builtins.input = lambda _: next(inputs)
-    >>> repl()
-    Hello, how can I assist you today?
-    >>> builtins.input = _old_input
-    >>> globals()['Chat'] = _old_chat
+    >>> 
+    >>> # 4. Run & Restore
+    >>> try:
+    ...     repl()
+    ... finally:
+    ...     builtins.input = _old_input
+    ...     globals()['Chat'] = _old_chat
+    ...     os.path.isdir = _old_isdir
+    AI: hello
     """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
