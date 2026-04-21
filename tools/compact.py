@@ -9,6 +9,35 @@ def compact(chat):
     """
     Summarize chat.messages into 1–5 concise lines and replace
     history with a compressed version while preserving system rules.
+    >>> class FakeChat:
+    ...     def __init__(self):
+    ...         self.messages = [
+    ...             {"role": "system", "content": "rules"},
+    ...             {"role": "user", "content": "hi"}
+    ...         ]
+
+    >>> class FakeResponse:
+    ...     class Choice:
+    ...         class Message:
+    ...             content = "summary"
+    ...         message = Message()
+    ...     choices = [Choice()]
+
+    >>> import types
+    >>> import groq
+    >>> groq.Groq = lambda api_key=None: types.SimpleNamespace(
+    ...     chat=types.SimpleNamespace(
+    ...         completions=types.SimpleNamespace(create=lambda **_: FakeResponse())
+    ...     )
+    ... )
+
+    >>> chat = FakeChat()
+
+    >>> compact(chat)
+    'summary'
+
+    >>> chat.messages[-1]["content"].startswith("Conversation summary:")
+    True
     """
 
     # Use API key from environment

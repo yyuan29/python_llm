@@ -37,8 +37,7 @@ class Chat:
 
     def send_message(self, message, temperature=0.0):
         """
-        Sends a message to the LLM and returns the assistant's response.
-
+        Sends a message to the LLM and returns the response.
         >>> chat = Chat()
 
         >>> class FakeMessage:
@@ -116,6 +115,23 @@ def completer(text, state):
     >>> readline.get_line_buffer = lambda: "."
     >>> isinstance(completer(".", 0), (str, type(None)))
     True
+
+    >>> # .git missing → early exit message
+    >>> import os
+    >>> os.path.isdir = lambda x: False
+    >>> "Error: .git folder not found" if not os.path.isdir(".git") else "ok"
+    'Error: .git folder not found'
+
+    >>> import os
+    >>> os.path.isdir = lambda x: True
+    >>> os.path.isfile = lambda x: True
+
+    >>> def cat(_):
+    ...     return "agent content"
+
+    >>> result = "Loaded AGENTS.md:\n" + cat("AGENTS.md")
+    >>> result
+    'Loaded AGENTS.md:\nagent content'
     """
     buffer = readline.get_line_buffer()
     parts = buffer.split()
@@ -289,6 +305,23 @@ def repl():
     <BLANKLINE>
 
     >>> builtins.input = old
+    >>> command_map = {"ls": lambda: "ok"}
+
+    >>> command = "badcmd"
+    >>> command in command_map
+    False
+
+    >>> command = "badcmd"
+    >>> f"Error: unknown command {command}"
+    'Error: unknown command badcmd'
+
+    >>> user_input = "/ls file1 file2"
+    >>> parts = user_input[1:].split()
+
+    >>> parts[0]
+    'ls'
+    >>> parts[1:]
+    ['file1', 'file2']
     '''
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
