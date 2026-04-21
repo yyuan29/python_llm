@@ -37,6 +37,33 @@ def grep(pattern, path):
     ...     _ = f.write(b"\\x00\\xff\\x00")
     >>> isinstance(grep("a", "bin.bin"), str)
     True
+
+    >>> import os
+    >>> from tools.grep import grep
+
+    >>> # create a small directory with a file inside
+    >>> os.mkdir("d1")
+    >>> with open("d1/a.txt", "w") as f:
+    ...     _ = f.write("hello world\\n")
+
+    >>> # grep should handle directory input by searching inside it
+    >>> "hello world" in grep("hello", "d1")
+    True
+
+    >>> import shutil
+    >>> shutil.rmtree("d1")
+
+    >>> import os
+    >>> from tools.grep import grep
+
+    >>> # file that exists but is unreadable-safe check (still returns string, no crash)
+    >>> with open("safe.txt", "w") as f:
+    ...     _ = f.write("hello world\\n")
+
+    >>> isinstance(grep("hello", "safe.txt"), str)
+    True
+
+    >>> os.remove("safe.txt")
     """
 
     # 1. safety check
