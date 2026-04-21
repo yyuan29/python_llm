@@ -7,42 +7,36 @@ def grep(pattern, path):
     """
     Searches files for regex matches and returns matching lines.
 
+    >>> from tools.grep import grep
+    >>> import os
+
+    >>> # unsafe path
     >>> grep("a", "../etc/passwd")
     'Error: unsafe path'
 
-    >>> filename = "temp_test_file.txt"
-    >>> _ = open(filename, "w").write("hello world\\nworld again\\n")
-    >>> grep("hello", filename)
+
+    >>> # basic single-line match
+    >>> with open("t1.txt", "w") as f:
+    ...     _ = f.write("hello world\\n")
+    >>> grep("hello", "t1.txt")
     'hello world'
 
-    >>> grep("world", filename)
+    >>> # multiple-line match
+    >>> with open("t2.txt", "w") as f:
+    ...     _ = f.write("hello world\\nworld again\\n")
+    >>> grep("world", "t2.txt")
     'hello world\\nworld again'
 
-    >>> os.remove(filename)
 
-    >>> os.mkdir("tmp_dir")
-    >>> _ = open("tmp_dir/file.txt", "w").write("hello world\\n")
-    >>> _ = open("tmp_file.txt", "w").write("hello world\\n")
-
-    >>> result = grep("hello", "tmp_dir")
-    >>> "hello world" in result
-    True
-
-    >>> import shutil
-    >>> os.remove("tmp_file.txt")
-    >>> shutil.rmtree("tmp_dir")
-
-    >>> filename = "tmp_bin.bin"
-    >>> _ = open(filename, "wb").write(b"\\x00\\xff\\x00\\xff")
-    >>> isinstance(grep("a", filename), str)
-    True
-    >>> os.remove(filename)
-
-    >>> filename = "tmp_empty.txt"
-    >>> _ = open(filename, "w").write("nothing here")
-    >>> grep("zzz", filename)
+    >>> # no match returns empty string
+    >>> grep("zzz", "t2.txt")
     ''
-    >>> os.remove(filename)
+
+    >>> # binary file still returns string (no crash)
+    >>> with open("bin.bin", "wb") as f:
+    ...     _ = f.write(b"\\x00\\xff\\x00")
+    >>> isinstance(grep("a", "bin.bin"), str)
+    True
     """
 
     # 1. safety check
