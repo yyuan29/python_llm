@@ -43,6 +43,22 @@ def cat(path):
     >>> # unsafe path
     >>> cat("/etc/passwd")
     'Error: unsafe path'
+
+    >>> import os
+    >>> from tools.cat import cat
+
+    >>> # normal utf-8 file (no decode error path triggered)
+    >>> with open("utf8.txt", "w", encoding="utf-8") as f:
+    ...     _ = f.write("hello")
+    >>> cat("utf8.txt")
+    'hello'
+
+
+    >>> # unreadable/binary-like file triggers final fallback case
+    >>> with open("binary.txt", "wb") as f:
+    ...     f.write(b"\\xff\\xfe\\x00\\x01")
+    >>> cat("binary.txt")
+    'Error: Could not decode file (likely binary).'
     """
 
     # 1. safety check
