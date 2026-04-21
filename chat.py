@@ -9,10 +9,11 @@ from tools.grep import grep
 from tools.calculate import calculate
 from tools.compact import compact
 
-from tools.doctests import doctests
-from tools.write_file import write_file
-from tools.write_files import write_files
-from tools.rm import rm
+# from tools.doctests import doctests
+# from tools.write_file import write_file
+# from tools.write_files import write_files
+# from tools.rm import rm
+
 
 load_dotenv()
 
@@ -135,12 +136,12 @@ def repl():
         "grep": grep,
         "calculate": calculate,
         "compact": lambda *args: compact(chat),
-
-        # REQUIRED TOOLS
-        "doctests": doctests,
-        "write_file": write_file,
-        "write_files": write_files,
-        "rm": rm,
+        
+        # # REQUIRED TOOLS
+        # "doctests": doctests,
+        # "write_file": write_file,
+        # "write_files": write_files,
+        # "rm": rm,
     }
 
     try:
