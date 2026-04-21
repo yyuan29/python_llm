@@ -92,9 +92,3 @@ def write_files(files, commit_message):
         return f"Git error: {str(e)}"
 
     return f"Committed files: {written_files}"
-    # git add + commit
-    repo.index.add(written_files)
-    repo.index.commit(f"[docchat] {commit_message}")
-
-    return f"Committed files: {written_files}"
-

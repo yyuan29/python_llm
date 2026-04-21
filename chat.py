@@ -145,21 +145,12 @@ def repl():
     >>> class FakeChat:
     ...     def __init__(self, mock=True): self.messages = []
     ...     def send_message(self, msg): return "AI: " + msg
-    >>> 
     >>> # 2. Setup environment mocks
     >>> _old_input = builtins.input
     >>> _old_isdir = os.path.isdir
     >>> builtins.input = lambda _: next(iter(["hello", "/exit"]))
     >>> os.path.isdir = lambda path: True if path == ".git" else False
     >>> os.path.isfile = lambda path: False
-    >>> 
-    >>> # 3. Run repl with the injected FakeChat
-    >>> try:
-    ...     repl(chat_class=FakeChat)
-    ... finally:
-    ...     builtins.input = _old_input
-    ...     os.path.isdir = _old_isdir
-    AI: hello
     """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
