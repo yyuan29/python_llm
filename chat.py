@@ -138,30 +138,26 @@ def completer(text, state):
 # =========================
 def repl():
     """
-    >>> # 1. Setup fakes
-    >>> import builtins
+    REPL entry point.
+
+    >>> import os, builtins
+    >>> # 1. Define a fake Chat that doesn't use the network
     >>> class FakeChat:
-    ...     def __init__(self, **kwargs): self.messages = []
+    ...     def __init__(self, mock=True): self.messages = []
     ...     def send_message(self, msg): return "AI: " + msg
     >>> 
-    >>> # 2. Save originals
+    >>> # 2. Setup environment mocks
     >>> _old_input = builtins.input
-    >>> _old_chat = globals().get('Chat')
     >>> _old_isdir = os.path.isdir
-    >>> 
-    >>> # 3. Apply mocks
-    >>> globals()['Chat'] = FakeChat
+    >>> builtins.input = lambda _: next(iter(["hello", "/exit"]))
     >>> os.path.isdir = lambda path: True if path == ".git" else False
     >>> os.path.isfile = lambda path: False
-    >>> inputs = iter(["hello", "/exit"])
-    >>> builtins.input = lambda _: next(inputs)
     >>> 
-    >>> # 4. Run & Restore
+    >>> # 3. Run repl with the injected FakeChat
     >>> try:
-    ...     repl()
+    ...     repl(chat_class=FakeChat)
     ... finally:
     ...     builtins.input = _old_input
-    ...     globals()['Chat'] = _old_chat
     ...     os.path.isdir = _old_isdir
     AI: hello
     """
