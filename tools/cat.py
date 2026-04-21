@@ -43,7 +43,6 @@ def cat(path):
     >>> # unsafe path
     >>> cat("/etc/passwd")
     'Error: unsafe path'
-    'Error: unsafe path'
     """
 
     # 1. safety check
