@@ -63,6 +63,32 @@ def grep(pattern, path):
     >>> isinstance(grep("hello", "safe.txt"), str)
     True
 
+    >>> import os
+    >>> import builtins
+    >>> from tools.grep import grep
+
+    >>> # create a normal file
+    >>> with open("ok.txt", "w") as f:
+    ...     _ = f.write("hello world\\n")
+
+    >>> # force open() to fail for this file (simulates OSError)
+    >>> real_open = open
+    >>> def fake_open(*args, **kwargs):
+    ...     if "ok.txt" in args[0]:
+    ...         raise OSError("blocked file")
+    ...     return real_open(*args, **kwargs)
+
+    >>> builtins.open = fake_open
+
+    >>> # grep should not crash and should just skip file
+    >>> isinstance(grep("hello", "ok.txt"), str)
+    True
+
+    >>> # restore open
+    >>> builtins.open = real_open
+
+    >>> os.remove("ok.txt")
+
     >>> os.remove("safe.txt")
     """
 

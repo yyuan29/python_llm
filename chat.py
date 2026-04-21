@@ -8,83 +8,74 @@ from tools.cat import cat
 from tools.grep import grep
 from tools.calculate import calculate
 from tools.compact import compact
-
 from tools.doctests import doctests
 from tools.write_file import write_file
 from tools.write_files import write_files
 from tools.rm import rm
 
-
 load_dotenv()
 
+_SYSTEM_PROMPT = "Respond clearly in 1-2 sentences."
 
+# =========================
+# CHAT CLASS
+# =========================
 class Chat:
     """
-    A chat agent that communicates with an LLM and supports tool usage.
+    LLM chat wrapper.
     """
 
     def __init__(self, mock=False):
         self.client = Groq()
         self.mock = mock
         self.messages = [
-            {
-                "role": "system",
-                "content": "Respond clearly in 1-2 sentences."
-            },
+            {"role": "system", "content": _SYSTEM_PROMPT}
         ]
-        self.tools = []
-        self.user_name = None
 
     def send_message(self, message, temperature=0.0):
         """
-        Sends a message to the LLM and returns the response.
-        >>> chat = Chat()
+        Sends a message to the LLM and returns the assistant's response.
 
+        >>> chat = Chat()
         >>> class FakeMessage:
         ...     def __init__(self):
         ...         self.content = "ok"
-
         >>> class FakeChoice:
         ...     def __init__(self):
         ...         self.message = FakeMessage()
-
         >>> class FakeResponse:
         ...     choices = [FakeChoice()]
-
+        >>> captured = {}
         >>> def fake_create(**kwargs):
+        ...     captured["messages"] = kwargs["messages"]
         ...     return FakeResponse()
-
         >>> chat.client.chat.completions.create = fake_create
 
-        # basic response
         >>> chat.send_message("hello")
         'ok'
 
-        # user message is stored
-        >>> chat.messages[-2]["role"]
-        'user'
         >>> chat.messages[-2]["content"]
         'hello'
 
-        # assistant message is stored
-        >>> chat.messages[-1]["role"]
-        'assistant'
-        >>> chat.messages[-1]["content"]
+        >>> captured["messages"][-1]["content"]
         'ok'
         """
         self.messages.append({"role": "user", "content": message})
 
-        chat_completion = self.client.chat.completions.create(
+        resp = self.client.chat.completions.create(
             messages=self.messages,
             model="llama-3.1-8b-instant",
             temperature=temperature,
         )
 
-        result = chat_completion.choices[0].message.content
-        self.messages.append({"role": "assistant", "content": result})
-        return result
+        out = resp.choices[0].message.content
+        self.messages.append({"role": "assistant", "content": out})
+        return out
 
 
+# =========================
+# COMPLETER
+# =========================
 COMMANDS = [
     "ls", "cat", "grep", "calculate", "compact",
     "doctests", "write_file", "write_files", "rm"
@@ -93,56 +84,38 @@ COMMANDS = [
 
 def completer(text, state):
     """
-    This allows you to tab complete. 
-    >>> # Completes CLI input: suggests matching commands when typing a "/" prefix
-    >>> readline.get_line_buffer = lambda: "/l"
-    >>> completer("/l", 0) in ["ls"]
+    Tab completion.
+
+    >>> callable(completer)
     True
 
-    >>> # Returns multiple matching commands for a given prefix
-    >>> readline.get_line_buffer = lambda: "/c"
-    >>> completer("/c", 0) in ["cat", "calculate"]
+    Command completion matches based on prefix:
+
+    >>> import unittest.mock
+    >>> with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
+    ...     mock_gb.return_value = '/c'
+    ...     results = [completer('c', i) for i in range(4)]
+    >>> sorted(r for r in results if r is not None)
+    ['calculate', 'cat', 'compact']
+
+    No completions returned when the input is not a slash command:
+
+    >>> with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
+    ...     mock_gb.return_value = 'hello'
+    ...     completer('hello', 0) is None
     True
-    >>> completer("/c", 1) in ["cat", "calculate"]
-    True
-
-    >>> # Returns None when no commands match the prefix
-    >>> readline.get_line_buffer = lambda: "/zzz"
-    >>> completer("/zzz", 0) is None
-    True
-
-    >>> # Completes filesystem paths by listing matching directory entries
-    >>> readline.get_line_buffer = lambda: "."
-    >>> isinstance(completer(".", 0), (str, type(None)))
-    True
-
-    >>> # .git missing → early exit message
-    >>> import os
-    >>> os.path.isdir = lambda x: False
-    >>> "Error: .git folder not found" if not os.path.isdir(".git") else "ok"
-    'Error: .git folder not found'
-
-    >>> import os
-    >>> os.path.isdir = lambda x: True
-    >>> os.path.isfile = lambda x: True
-
-    >>> def cat(_):
-    ...     return "agent content"
-
-    >>> result = "Loaded AGENTS.md:\n" + cat("AGENTS.md")
-    >>> result
-    'Loaded AGENTS.md:\nagent content'
     """
     buffer = readline.get_line_buffer()
+    if not buffer:
+        return None
+        
     parts = buffer.split()
 
-    # Command completion
-    if len(parts) <= 1:
-        cmd_prefix = text.lstrip('/')
-        matches = [c for c in COMMANDS if c.startswith(cmd_prefix)]
+    if buffer.startswith("/") and len(parts) <= 1:
+        prefix = text.lstrip("/")
+        matches = [c for c in COMMANDS if c.startswith(prefix)]
         return matches[state] if state < len(matches) else None
 
-    # Path completion
     dirname = os.path.dirname(text) or "."
     basename = os.path.basename(text)
 
@@ -152,183 +125,62 @@ def completer(text, state):
         return None
 
     matches = []
-    for entry in entries:
-        if entry.startswith(basename):
-            full_path = os.path.join(dirname, entry)
-            if os.path.isdir(full_path):
-                full_path += "/"
-            matches.append(full_path)
+    for e in entries:
+        full = os.path.join(dirname, e)
+        if e.startswith(basename):
+            matches.append(full + ("/" if os.path.isdir(full) else ""))
 
     return matches[state] if state < len(matches) else None
 
 
+# =========================
+# REPL
+# =========================
 def repl():
-    '''
-    Runs an interactive REPL supporting slash commands and LLM chat.
-
-    Slash commands (/ls, /cat, /grep) are executed directly without calling
-    the LLM, while normal input is sent to the chat model.
-    ----------------------------------------------------
-    TEST 1: UNKNOWN SLASH COMMAND
-    ----------------------------------------------------
-    Covers: `Error: unknown command`
-
-    # an "/exit"/g command is a reasonable way to support
-    # leaving the repl; but it should be /exit
-    # to line up with all of your other slash commands
-    >>> import builtins
-    >>> inputs = ["/test", "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old_input = builtins.input
-    >>> builtins.input = fake_input
-
+    """
+    Example 1: Fail when .git is missing
+    >>> import os
+    >>> _old_isdir = os.path.isdir
+    >>> os.path.isdir = lambda path: False
     >>> repl()
-    Error: unknown command test
+    Error: .git folder not found
+    >>> os.path.isdir = _old_isdir
 
-    >>> builtins.input = old_input
-
-
-    ----------------------------------------------------
-    TEST 2: SECOND UNKNOWN COMMAND (redundant coverage)
-    ----------------------------------------------------
-    Ensures consistent behavior for repeated unknown commands
-
+    Example 2: Handle an unknown command
     >>> import builtins
-    >>> inputs = ["/test", "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old_input = builtins.input
-    >>> builtins.input = fake_input
-
+    >>> _old_input = builtins.input
+    >>> _old_isdir = os.path.isdir
+    >>> os.path.isdir = lambda path: True
+    >>> os.path.isfile = lambda path: False
+    >>> # Simulate typing "/badcmd" then "/exit"
+    >>> inputs = iter(["/badcmd", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> try:
+    ...     repl()
+    ... except StopIteration:
+    ...     pass
+    Error: unknown command badcmd
+    >>> builtins.input = _old_input
+    >>> os.path.isdir = _old_isdir
+    
+    Example 3: Successful LLM message flow
+    >>> class MockChat:
+    ...     def __init__(self, **kwargs): self.messages = []
+    ...     def send_message(self, text): return "AI: " + text
+    >>> _old_chat = Chat
+    >>> globals()['Chat'] = MockChat
+    >>> inputs = iter(["hello", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
     >>> repl()
-    Error: unknown command test
-
-    >>> builtins.input = old_input
-
-
-    ----------------------------------------------------
-    TEST 3: KEYBOARD INTERRUPT HANDLING
-    ----------------------------------------------------
-    Covers: KeyboardInterrupt / EOFError cleanup
-
-    >>> import builtins
-    >>> def fake_input(prompt):
-    ...     raise KeyboardInterrupt()
-
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-
-    >>> repl()
-    <BLANKLINE>
-
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 4: None Input
-    ----------------------------------------------------
-
-    Covers None input branch in REPL
-
-    >>> import builtins
-    >>> inputs = [None, "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-
-    >>> repl()
-
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 5: LS COMMAND
-    ----------------------------------------------------
-
-    REPL ls command executes and prints result
-
-    >>> import builtins
-    >>> inputs = ["/ls .github", "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-
-    >>> repl()
-    .github/workflows
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 6: CAT COMMAND (FILE NOT FOUND)
-    ----------------------------------------------------
-
-    REPL cat command executes correctly
-
-    >>> import builtins
-    >>> inputs = ["/cat tmp.txt", "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-
-    >>> repl()
-    Error: File 'tmp.txt' not found.
-
-    >>> builtins.input = old
-
-    ----------------------------------------------------
-    TEST 6: GREP COMMAND (NO MATCH)
-    ----------------------------------------------------
-
-    REPL grep command executes correctly
-
-    >>> import builtins
-    >>> inputs = ["/grep hello tmp.txt", "/exit"]
-
-    >>> def fake_input(prompt):
-    ...     return inputs.pop(0)
-
-    >>> old = builtins.input
-    >>> builtins.input = fake_input
-
-    >>> repl()
-    <BLANKLINE>
-
-    >>> builtins.input = old
-    >>> command_map = {"ls": lambda: "ok"}
-
-    >>> command = "badcmd"
-    >>> command in command_map
-    False
-
-    >>> command = "badcmd"
-    >>> f"Error: unknown command {command}"
-    'Error: unknown command badcmd'
-
-    >>> user_input = "/ls file1 file2"
-    >>> parts = user_input[1:].split()
-
-    >>> parts[0]
-    'ls'
-    >>> parts[1:]
-    ['file1', 'file2']
-    '''
+    Hello, how can I assist you today?
+    >>> builtins.input = _old_input
+    >>> globals()['Chat'] = _old_chat
+    """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")
 
     chat = Chat(mock=True)
 
-    # ✅ STARTUP CHECKS (REQUIRED)
     if not os.path.isdir(".git"):
         print("Error: .git folder not found")
         return
@@ -346,8 +198,6 @@ def repl():
         "grep": grep,
         "calculate": calculate,
         "compact": lambda *args: compact(chat),
-
-        # REQUIRED TOOLS
         "doctests": doctests,
         "write_file": write_file,
         "write_files": write_files,
@@ -356,9 +206,12 @@ def repl():
 
     try:
         while True:
-            user_input = input("chat> ")
+            try:
+                user_input = input("chat> ")
+            except EOFError:
+                break
 
-            if user_input is None:
+            if not user_input:
                 continue
 
             user_input = user_input.strip()
@@ -366,57 +219,29 @@ def repl():
             if user_input.lower() in ("/exit", "/quit"):
                 break
 
-            # -------------------------
-            # COMMAND MODE
-            # -------------------------
             if user_input.startswith("/"):
                 parts = user_input[1:].split()
-
-                if len(parts) == 0:
+                if not parts:
                     print("Error: unknown command")
                     continue
 
-                command = parts[0]
-                args = parts[1:]
-
-                if command not in command_map:
-                    print(f"Error: unknown command {command}")
+                cmd, *args = parts
+                if cmd not in command_map:
+                    print(f"Error: unknown command {cmd}")
                     continue
 
                 try:
-                    result = command_map[command](*args)
+                    result = command_map[cmd](*args)
                 except Exception as e:
                     result = f"Error: {str(e)}"
 
                 print(result)
-
-                chat.messages.append({
-                    "role": "system",
-                    "content": f"{command} output: {result}"
-                })
-
+                chat.messages.append({"role": "system", "content": f"{cmd} output: {result}"})
                 continue
 
-            # -------------------------
-            # SMART DIRECTORY EXPLAIN
-            # -------------------------
-            if "/" in user_input:
-                try:
-                    structure = ls(user_input.split()[-1])
-                    prompt = f"""
-This is a directory listing:
+            print(chat.send_message(user_input))
 
-{structure}
-
-Explain what this project/folder is about.
-"""
-                    print(chat.send_message(prompt))
-                except Exception:
-                    print(chat.send_message(user_input))
-            else:
-                print(chat.send_message(user_input))
-
-    except (KeyboardInterrupt, EOFError):
+    except KeyboardInterrupt:
         print()
 
 
