@@ -136,7 +136,7 @@ def repl():
         "grep": grep,
         "calculate": calculate,
         "compact": lambda *args: compact(chat),
-        
+
         # # REQUIRED TOOLS
         # "doctests": doctests,
         # "write_file": write_file,
