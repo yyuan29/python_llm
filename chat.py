@@ -116,14 +116,19 @@ def completer(text, state):
     ...     completer('', 0) is None
     True
 
-    >>> import os, tempfile
+    >>> import os, tempfile, unittest.mock
 
     >>> with tempfile.TemporaryDirectory() as tmp:
-    ...     _ = open(os.path.join(tmp, "file1.txt"), "w")
-    ...     _ = open(os.path.join(tmp, "file2.txt"), "w")
-    ...     with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
-    ...         mock_gb.return_value = 'file'
-    ...         results = [completer(os.path.join(tmp, "file"), i) for i in range(3)]
+    ...     p1 = os.path.join(tmp, "file1.txt")
+    ...     p2 = os.path.join(tmp, "file2.txt")
+    ...     open(p1, "w").close()
+    ...     open(p2, "w").close()
+    ...
+    ...     with unittest.mock.patch('readline.get_line_buffer') as m:
+    ...         m.return_value = 'file'
+    ...         base = os.path.join(tmp, "file")
+    ...         results = [completer(base, i) for i in range(3)]
+    ...
     ...     any("file1.txt" in r for r in results if r)
     True
     """

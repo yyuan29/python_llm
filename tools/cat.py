@@ -4,7 +4,7 @@ import os
 
 def cat(path):
     """
-    Opens a file and reads it. 
+    Opens a file and reads it.
     >>> from tools.cat import cat
     >>> import os
 
