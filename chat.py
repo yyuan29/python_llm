@@ -20,6 +20,7 @@ _SYSTEM_PROMPT = "Respond clearly in 1-2 sentences."
 # =========================
 # CHAT CLASS
 # =========================
+
 class Chat:
     """
     LLM chat wrapper.
@@ -45,7 +46,7 @@ class Chat:
 
     def send_message(self, message, temperature=0.0):
         """
-        Sends a response based on what was given. 
+        Sends a response based on what was given.
         >>> chat = Chat()
 
         >>> class FakeMessage:
