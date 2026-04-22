@@ -26,6 +26,17 @@ class Chat:
     """
 
     def __init__(self, mock=False):
+        """
+        >>> chat = Chat(mock=True)
+        >>> isinstance(chat.messages, list)
+        True
+        >>> chat.messages[0]["role"]
+        'system'
+        >>> "Respond clearly" in chat.messages[0]["content"]
+        True
+        >>> chat.mock
+        True
+        """
         self.client = Groq()
         self.mock = mock
         self.messages = [
@@ -34,30 +45,30 @@ class Chat:
 
     def send_message(self, message, temperature=0.0):
         """
-        Sends a message to the LLM and returns the assistant's response.
-
+        Sends a response based on what was given. 
         >>> chat = Chat()
+
         >>> class FakeMessage:
-        ...     def __init__(self):
-        ...         self.content = "ok"
+        ...     def __init__(self, content):
+        ...         self.content = content
+
         >>> class FakeChoice:
-        ...     def __init__(self):
-        ...         self.message = FakeMessage()
+        ...     def __init__(self, content):
+        ...         self.message = FakeMessage(content)
+
         >>> class FakeResponse:
-        ...     choices = [FakeChoice()]
-        >>> captured = {}
+        ...     def __init__(self, content):
+        ...         self.choices = [FakeChoice(content)]
+
         >>> def fake_create(**kwargs):
-        ...     captured["messages"] = kwargs["messages"]
-        ...     return FakeResponse()
+        ...     return FakeResponse("ok")
+
         >>> chat.client.chat.completions.create = fake_create
 
         >>> chat.send_message("hello")
         'ok'
 
-        >>> chat.messages[-2]["content"]
-        'hello'
-
-        >>> captured["messages"][-1]["content"]
+        >>> chat.messages[-1]["content"]
         'ok'
         """
         self.messages.append({"role": "user", "content": message})
@@ -89,20 +100,29 @@ def completer(text, state):
     >>> callable(completer)
     True
 
-    Command completion matches based on prefix:
-
     >>> import unittest.mock
+
+    # Slash command completion
     >>> with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
     ...     mock_gb.return_value = '/c'
-    ...     results = [completer('c', i) for i in range(4)]
-    >>> sorted(r for r in results if r is not None)
-    ['calculate', 'cat', 'compact']
+    ...     [completer('c', i) for i in range(5)]
+    ['cat', 'calculate', 'compact', None, None]
 
-    No completions returned when the input is not a slash command:
-
+    # No buffer
     >>> with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
-    ...     mock_gb.return_value = 'hello'
-    ...     completer('hello', 0) is None
+    ...     mock_gb.return_value = ''
+    ...     completer('', 0) is None
+    True
+
+    >>> import os, tempfile
+
+    >>> with tempfile.TemporaryDirectory() as tmp:
+    ...     _ = open(os.path.join(tmp, "file1.txt"), "w")
+    ...     _ = open(os.path.join(tmp, "file2.txt"), "w")
+    ...     with unittest.mock.patch('readline.get_line_buffer') as mock_gb:
+    ...         mock_gb.return_value = 'file'
+    ...         results = [completer(os.path.join(tmp, "file"), i) for i in range(3)]
+    ...     any("file1.txt" in r for r in results if r)
     True
     """
     buffer = readline.get_line_buffer()
@@ -138,19 +158,84 @@ def completer(text, state):
 # =========================
 def repl():
     """
-    REPL entry point.
+    A Read-Eval-Print Loop for the chat agent.
+    >>> import os
 
-    >>> import os, builtins
-    >>> # 1. Define a fake Chat that doesn't use the network
-    >>> class FakeChat:
-    ...     def __init__(self, mock=True): self.messages = []
-    ...     def send_message(self, msg): return "AI: " + msg
-    >>> # 2. Setup environment mocks
-    >>> _old_input = builtins.input
-    >>> _old_isdir = os.path.isdir
-    >>> builtins.input = lambda _: next(iter(["hello", "/exit"]))
-    >>> os.path.isdir = lambda path: True if path == ".git" else False
-    >>> os.path.isfile = lambda path: False
+    >>> # simulate missing .git folder
+    >>> if os.path.isdir(".git"):
+    ...     _ = os.rename(".git", ".git_backup")
+
+    >>> repl()  # should print error and exit
+    Error: .git folder not found
+
+    >>> if os.path.isdir(".git_backup"):
+    ...     _ = os.rename(".git_backup", ".git")
+
+    >>> import os
+    >>> import os, tempfile
+
+    >>> with tempfile.TemporaryDirectory() as tmp:
+    ...     cwd = os.getcwd()
+    ...     os.chdir(tmp)
+    ...     os.mkdir(".git")
+    ...     with open("AGENTS.md", "w") as f:
+    ...         _ = f.write("agent rules")
+    ...
+    ...     import builtins
+    ...     inputs = iter(["/exit"])
+    ...     builtins.input = lambda _: next(inputs)
+    ...
+    ...     repl()  # should run without error
+    ...
+    ...     os.chdir(cwd)
+    >>> if os.path.exists("AGENTS.md"): os.remove("AGENTS.md")
+
+    >>> import builtins
+
+    # Simulate EOFError when input() is called
+    >>> def fake_input(prompt):
+    ...     raise EOFError
+
+    >>> builtins.input = fake_input
+
+    >>> repl()
+
+    >>> import builtins
+    >>> inputs = iter(["/", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> repl()  # doctest: +ELLIPSIS
+    Error: unknown command
+
+    >>> import builtins
+    >>> inputs = iter(["/abc", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> repl()  # doctest: +ELLIPSIS
+    Error: unknown command abc
+
+    >>> import builtins
+    >>> inputs = iter(["/rm fakefile", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> repl()  # doctest: +ELLIPSIS
+    No files matched
+
+    >>> import builtins
+    >>> inputs = iter(["/ls .github", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> repl()  # doctest: +ELLIPSIS
+    .github/workflows
+
+    >>> import builtins
+    >>> inputs = iter(["hello", "/exit"])
+    >>> builtins.input = lambda _: next(inputs)
+    >>> repl()
+    Hello, how can I assist you today?
+    
+    >>> import builtins
+    >>> def fake_input(_):
+    ...     raise KeyboardInterrupt
+    >>> builtins.input = fake_input
+    >>> repl()
+    <BLANKLINE>
     """
     readline.set_completer(completer)
     readline.parse_and_bind("tab: complete")

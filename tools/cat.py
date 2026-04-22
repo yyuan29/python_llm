@@ -4,94 +4,52 @@ import os
 
 def cat(path):
     """
-    Opens a file and returns its contents as a string.
-
-    >>> import os
+    Opens a file and reads it. 
     >>> from tools.cat import cat
+    >>> import os
 
-    >>> # basic file read
-    >>> with open("test1.txt", "w") as f:
-    ...     _ = f.write("hello world")
-    >>> cat("test1.txt")
-    'hello world'
+    # basic read
+    >>> with open("a.txt", "w") as f:
+    ...     _ = f.write("hello")
+    >>> cat("a.txt")
+    'hello'
 
+    # multiline
+    >>> with open("b.txt", "w") as f:
+    ...     _ = f.write("one\\ntwo")
+    >>> cat("b.txt")
+    'one\\ntwo'
 
-    >>> # multiline file read
-    >>> with open("test2.txt", "w") as f:
-    ...     _ = f.write("line1\\nline2")
-    >>> cat("test2.txt")
-    'line1\\nline2'
-
-
-    >>> # empty file
-    >>> open("empty.txt", "w").close()
-    >>> cat("empty.txt")
+    # empty file
+    >>> open("c.txt", "w").close()
+    >>> cat("c.txt")
     ''
 
+    # file not found
+    >>> cat("nope.txt")
+    "Error: File 'nope.txt' not found."
 
-    >>> # file does not exist
-    >>> cat("does_not_exist.txt")
-    "Error: File 'does_not_exist.txt' not found."
+    # directory instead of file
+    >>> os.mkdir("mydir")
+    >>> cat("mydir")
+    "Error: File 'mydir' not found."
 
-
-    >>> # directory instead of file
-    >>> os.mkdir("testdir")
-    >>> cat("testdir")
-    "Error: File 'testdir' not found."
-
-
-    >>> # unsafe path
+    # unsafe path
     >>> cat("/etc/passwd")
     'Error: unsafe path'
 
-    >>> import os
-    >>> from tools.cat import cat
+    # binary file
+    >>> with open("bin.dat", "wb") as f:
+    ...     _ = f.write(b"\\xff\\xfe\\xfd")
+    >>> cat("bin.dat")
+    'Error: Could not decode file (likely binary).'
 
-    >>> # normal utf-8 file (no decode error path triggered)
-    >>> with open("utf8.txt", "w", encoding="utf-8") as f:
-    ...     _ = f.write("hello")
-    >>> cat("utf8.txt")
-    'hello'
-
-    >>> import os
-    >>> from tools.cat import cat
-
-    >>> # create a truly invalid UTF file (forces fallback reliably)
-    >>> with open("binary.txt", "wb") as f:
-    ...     _ = f.write(b"\\x80\\x81\\x82\\x83")
-
-    >>> cat("binary.txt") == "Error: Could not decode file (likely binary)."
-    True
-
-    >>> import os
-    >>> from tools.cat import cat
-
-    >>> # -----------------------------------
-    >>> # basic binary file (covers fallback path indirectly)
-    >>> # -----------------------------------
-    >>> with open("binary.txt", "wb") as f:
-    ...     _ = f.write(b"\\x00\\xff\\x00\\xff")
-
-    >>> result = cat("binary.txt")
-    >>> isinstance(result, str)
-    True
-    >>> "Could not decode" in result or result.startswith("Error")
-    True
-
-    >>> os.remove("binary.txt")
-
-
-    >>> # -----------------------------------
-    >>> # normal file ensures encoding loop works
-    >>> # (implicitly skips UnicodeDecodeError branch safely)
-    >>> # -----------------------------------
-    >>> with open("utf8.txt", "w", encoding="utf-8") as f:
-    ...     _ = f.write("hello")
-
-    >>> cat("utf8.txt")
-    'hello'
-
-    >>> os.remove("utf8.txt")
+    # cleanup
+    >>> os.remove("a.txt")
+    >>> os.remove("b.txt")
+    >>> os.remove("c.txt")
+    >>> os.remove("bin.dat")
+    >>> os.rmdir("mydir")
     """
 
     # 1. safety check
