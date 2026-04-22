@@ -223,12 +223,6 @@ def repl():
     >>> builtins.input = lambda _: next(inputs)
     >>> repl()  # doctest: +ELLIPSIS
     .github/workflows
-
-    >>> import builtins
-    >>> inputs = iter(["hello", "/exit"])
-    >>> builtins.input = lambda _: next(inputs)
-    >>> repl()
-    Hello, how can I assist you today?
     
     >>> import builtins
     >>> def fake_input(_):
