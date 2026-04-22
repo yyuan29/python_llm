@@ -130,7 +130,7 @@ def completer(text, state):
     buffer = readline.get_line_buffer()
     if not buffer:
         return None
-        
+
     parts = buffer.split()
 
     if buffer.startswith("/") and len(parts) <= 1:
@@ -225,7 +225,7 @@ def repl():
     >>> builtins.input = lambda _: next(inputs)
     >>> repl()  # doctest: +ELLIPSIS
     .github/workflows
-    
+
     >>> import builtins
     >>> def fake_input(_):
     ...     raise KeyboardInterrupt
@@ -293,7 +293,8 @@ def repl():
                     result = f"Error: {str(e)}"
 
                 print(result)
-                chat.messages.append({"role": "system", "content": f"{cmd} output: {result}"})
+                chat.messages.append({"role": "system",
+                                      "content": f"{cmd} output:{result}"})
                 continue
 
             print(chat.send_message(user_input))
