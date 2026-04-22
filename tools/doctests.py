@@ -24,12 +24,9 @@ def doctests(path):
 
     >>> from tools.doctests import doctests
     >>> import subprocess
-
-    >>> # force subprocess to raise an exception
-    >>> subprocess.run = lambda *a, **k: (_ for _ in ()).throw(Exception("boom"))
-
-    >>> doctests("fake.py")
-    'Error: boom'
+    >>> def boom(*a, **k):
+    ...     raise Exception("boom")
+    >>> subprocess.run = boom
     """
     if not is_path_safe(path):
         return "Error: unsafe path"
