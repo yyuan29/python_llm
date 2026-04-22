@@ -21,6 +21,7 @@ _SYSTEM_PROMPT = "Respond clearly in 1-2 sentences."
 # CHAT CLASS
 # =========================
 
+
 class Chat:
     """
     LLM chat wrapper.
