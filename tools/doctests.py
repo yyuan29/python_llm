@@ -43,4 +43,3 @@ def doctests(path):
         return result.stdout + result.stderr
     except Exception as e:
         return f"Error: {str(e)}"
- 
