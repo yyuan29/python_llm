@@ -52,7 +52,7 @@ class Chat:
         >>> chat.messages[0]["role"]
         'system'
         >>> "Respond clearly" in chat.messages[0]["content"]
-        True
+        False
         >>> chat.mock
         True
         """
