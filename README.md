@@ -57,7 +57,7 @@ Yumo asked about the purpose of a Python file named `utils.py`, and I explained 
 ```
 
 ### Agent in Action
-My example shows the creation of a greet.py file in the docsum folder. 
+This shows the creation of a greet.py file in the docsum folder. 
 ```
 chat> Create a greet.py file that has a hello.py function
 [feature-work 5307955] [docchat] update file
@@ -70,4 +70,13 @@ Doctest Results:
 0 tests in 1 item.
 0 passed.
 Test passed.
+```
+
+This following example hence will delete the greet.py file. 
+```
+chat> delete greet.py
+[feature-work e237a7a] [docchat] rm greet.py
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+ delete mode 100644 greet.py
+Removed: ['greet.py']
 ```
