@@ -56,3 +56,18 @@ chat> /compact
 Yumo asked about the purpose of a Python file named `utils.py`, and I explained that it typically contains utility functions for tasks like data manipulation and file operations.
 ```
 
+### Agent in Action
+My example shows the creation of a greet.py file in the docsum folder. 
+```
+chat> Create a greet.py file that has a hello.py function
+[feature-work 5307955] [docchat] update file
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+Committed files: ['greet.py']
+
+Doctest Results:
+1 item had no tests:
+    greet
+0 tests in 1 item.
+0 passed.
+Test passed.
+```

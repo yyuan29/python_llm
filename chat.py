@@ -13,10 +13,27 @@ from tools.write_file import write_file
 from tools.write_files import write_files
 from tools.rm import rm
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+_SYSTEM_PROMPT = """
+You are a file system automation agent.
 
-_SYSTEM_PROMPT = "Respond clearly in 1-2 sentences."
+YOU MUST FOLLOW THESE RULES EXACTLY:
 
+1. If the user asks to create, edit, or write a file:
+   Respond ONLY with:
+
+/write_file <path> <contents> <commit_message>
+
+2. Do NOT explain anything.
+3. Do NOT respond in normal sentences.
+4. Do NOT use markdown.
+5. If you do not follow these rules, your response is invalid.
+
+Example:
+User: create greet.py with hello function
+Assistant:
+/write_file greet.py "def greet(): print('hello')" "add greet function"
+"""
 # =========================
 # CHAT CLASS
 # =========================
@@ -75,16 +92,75 @@ class Chat:
         """
         self.messages.append({"role": "user", "content": message})
 
-        resp = self.client.chat.completions.create(
-            messages=self.messages,
-            model="llama-3.1-8b-instant",
-            temperature=temperature,
-        )
+        # call model safely
+        try:
+            resp = self.client.chat.completions.create(
+                messages=self.messages,
+                model="llama-3.1-8b-instant",
+                temperature=temperature,
+            )
+        except Exception as e:
+            return f"API error: {e}"
 
-        out = resp.choices[0].message.content
+        msg = resp.choices[0].message
+
+        # handle empty / None content
+        out = msg.content or ""
+        if not out:
+            return "Error: empty model response"
+
+        # store assistant response
         self.messages.append({"role": "assistant", "content": out})
+
+        # =========================
+        # TOOL HANDLING
+        # =========================
+        if out.startswith("/"):
+            parts = out[1:].strip().split(" ", 2)
+
+            cmd = parts[0]
+            args = parts[1:] if len(parts) > 1 else []
+
+            if cmd == "write_file":
+                if len(args) == 2:
+                    args.append("update file")
+                elif len(args) == 1:
+                    args.append("")
+                    args.append("update file")
+            tools = {
+                "ls": ls,
+                "cat": cat,
+                "grep": grep,
+                "calculate": calculate,
+                "compact": lambda *args: compact(self),
+                "doctests": doctests,
+                "write_file": write_file,
+                "write_files": write_files,
+                "rm": rm,
+            }
+
+            tool = tools.get(cmd)
+
+            try:
+                if tool is None:
+                    result = f"Error: unknown tool {cmd}"
+                else:
+                    result = tool(*args)
+            except Exception as e:
+                result = f"Tool error: {e}"
+
+            # log tool result back into conversation
+            self.messages.append({
+                "role": "system",
+                "content": f"{cmd} output: {result}"
+            })
+
+            return result
+
+        # normal response
         return out
 
+           
 
 # =========================
 # COMPLETER
