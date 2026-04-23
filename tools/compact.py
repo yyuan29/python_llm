@@ -28,14 +28,6 @@ def compact(chat):
     >>> class FakeResp:
     ...     choices = [FakeChoice()]
 
-    >>> # mock Groq client
-    >>> import tools.compact as c
-    >>> c.Groq = lambda api_key=None: types.SimpleNamespace(
-    ...     chat=types.SimpleNamespace(
-    ...         completions=types.SimpleNamespace(create=lambda **k: FakeResp())
-    ...     )
-    ... )
-
     >>> chat = FakeChat()
 
     >>> compact(chat)
