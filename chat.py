@@ -159,7 +159,7 @@ class Chat:
 
         # normal response
         return out
- 
+
 
 # =========================
 # COMPLETER
