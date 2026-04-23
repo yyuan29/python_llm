@@ -137,6 +137,7 @@ class Chat:
                 "write_file": write_file,
                 "write_files": write_files,
                 "rm": rm,
+                "delete_file": rm,
             }
 
             tool = tools.get(cmd)
@@ -339,6 +340,7 @@ def repl():
         "write_file": write_file,
         "write_files": write_files,
         "rm": rm,
+        "delete_file": rm,
     }
 
     try:
