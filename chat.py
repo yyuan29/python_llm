@@ -12,8 +12,47 @@ from tools.doctests import doctests
 from tools.write_file import write_file
 from tools.write_files import write_files
 from tools.rm import rm
+from tools.pip_install import pip_install
+
+def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
+    """
+    >>> def ok(): return True
+    >>> def noop(): return None
+    >>> ralph_loop(ok, noop)
+    True
+
+    >>> calls = {"c": 0}
+    >>> def fail():
+    ...     calls["c"] += 1
+    ...     return False
+    >>> def trigger():
+    ...     calls["c"] += 1
+    >>> ralph_loop(fail, trigger, max_iters=2)
+    False
+
+    >>> ralph_loop(ok, noop, enabled=False)
+    True
+    """
+    if not enabled:
+        return run_doctests()
+
+    for _ in range(max_iters):
+        if run_doctests():
+            return True
+        send_message("fix failing doctests")
+
+    return False
+
+def run_doctests_wrapper():
+    """
+    >>> isinstance(run_doctests_wrapper(), bool)
+    True
+    """
+    output = doctests()
+    return "failed" not in output.lower()
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
+
 _SYSTEM_PROMPT = """
 You are a file system automation agent.
 
@@ -92,7 +131,6 @@ class Chat:
         """
         self.messages.append({"role": "user", "content": message})
 
-        # call model safely
         try:
             resp = self.client.chat.completions.create(
                 messages=self.messages,
@@ -103,13 +141,11 @@ class Chat:
             return f"API error: {e}"
 
         msg = resp.choices[0].message
-
-        # handle empty / None content
         out = msg.content or ""
+
         if not out:
             return "Error: empty model response"
 
-        # store assistant response
         self.messages.append({"role": "assistant", "content": out})
 
         # =========================
@@ -121,12 +157,14 @@ class Chat:
             cmd = parts[0]
             args = parts[1:] if len(parts) > 1 else []
 
+            # normalize args for write_file
             if cmd == "write_file":
                 if len(args) == 2:
                     args.append("update file")
                 elif len(args) == 1:
                     args.append("")
                     args.append("update file")
+
             tools = {
                 "ls": ls,
                 "cat": cat,
@@ -138,6 +176,7 @@ class Chat:
                 "write_files": write_files,
                 "rm": rm,
                 "delete_file": rm,
+                "pip_install": pip_install,
             }
 
             tool = tools.get(cmd)
@@ -150,11 +189,18 @@ class Chat:
             except Exception as e:
                 result = f"Tool error: {e}"
 
-            # log tool result back into conversation
             self.messages.append({
                 "role": "system",
                 "content": f"{cmd} output: {result}"
             })
+
+            # =========================
+            # RALPH LOOP (CORRECT PLACE)
+            # =========================
+            FILE_TOOLS = {"write_file", "write_files", "rm", "delete_file"}
+
+            if cmd in FILE_TOOLS:
+                ralph_loop(run_doctests_wrapper, self.send_message)
 
             return result
 
@@ -341,6 +387,7 @@ def repl():
         "write_files": write_files,
         "rm": rm,
         "delete_file": rm,
+        "pip_install": pip_install,
     }
 
     try:
