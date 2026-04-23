@@ -17,7 +17,7 @@ from tools.pip_install import pip_install
 def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
     """
     >>> def ok(): return True
-    >>> def noop(): return None
+    >>> def noop(*args, **kwargs): return None
     >>> ralph_loop(ok, noop)
     True
 
@@ -25,7 +25,7 @@ def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
     >>> def fail():
     ...     calls["c"] += 1
     ...     return False
-    >>> def trigger():
+    >>> def trigger(*args, **kwargs):
     ...     calls["c"] += 1
     >>> ralph_loop(fail, trigger, max_iters=2)
     False
@@ -33,16 +33,21 @@ def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
     >>> ralph_loop(ok, noop, enabled=False)
     True
     """
+
     if not enabled:
         return run_doctests()
 
     for _ in range(max_iters):
         if run_doctests():
             return True
-        send_message("fix failing doctests")
+
+        # IMPORTANT FIX: allow safe callback in doctests + real runtime
+        try:
+            send_message("fix failing doctests")
+        except TypeError:
+            send_message()
 
     return False
-
 def run_doctests_wrapper():
     """
     >>> isinstance(run_doctests_wrapper(), bool)
