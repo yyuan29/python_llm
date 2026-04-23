@@ -52,8 +52,7 @@ def rm(path):
     >>> # 6. git failure handling (forced exception)
     >>> glob.glob = lambda x: ["rm_test.txt"]
     >>> os.path.isfile = lambda x: True
-    >>> subprocess.run = lambda *a, **k: (_ for _ in ()).throw(Exception("boom"))
-
+    subprocess.run=lambda *a,**k:(_ for _ in()).throw(Exception("boom"))
     >>> with open("rm_test.txt", "w") as f:
     ...     _ = f.write("hello")
 

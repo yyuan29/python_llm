@@ -44,7 +44,7 @@ def write_files(files, commit_message):
     >>> # -----------------------------
     >>> files = [{"path": "wf3.txt", "contents": "x"}]
 
-    >>> subprocess.run = lambda *a, **k: (_ for _ in ()).throw(Exception("boom"))
+    >>> subprocess.run=lambda *a,**k:(_ for _ in()).throw(Exception("boom"))
 
     >>> write_files(files, "fail commit")
     'Git error: boom'

@@ -56,8 +56,7 @@ def grep(pattern, path):
     >>> import os
     >>> from tools.grep import grep
 
-    >>> # file that exists but is unreadable-safe check (still returns string, no crash)
-    >>> with open("safe.txt", "w") as f:
+    >>> # file that exists but is unreadable-safe check
     ...     _ = f.write("hello world\\n")
 
     >>> isinstance(grep("hello", "safe.txt"), str)
