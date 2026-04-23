@@ -14,6 +14,7 @@ from tools.write_files import write_files
 from tools.rm import rm
 from tools.pip_install import pip_install
 
+
 def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
     """
     >>> def ok(): return True
@@ -48,6 +49,8 @@ def ralph_loop(run_doctests, send_message, enabled=True, max_iters=5):
             send_message()
 
     return False
+
+
 def run_doctests_wrapper():
     """
     >>> isinstance(run_doctests_wrapper(), bool)
@@ -58,6 +61,7 @@ def run_doctests_wrapper():
         return "failed" not in output.lower()
     except Exception:
         return False
+
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 
