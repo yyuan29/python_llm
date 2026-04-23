@@ -53,8 +53,11 @@ def run_doctests_wrapper():
     >>> isinstance(run_doctests_wrapper(), bool)
     True
     """
-    output = doctests()
-    return "failed" not in output.lower()
+    try:
+        output = doctests(".")
+        return "failed" not in output.lower()
+    except Exception:
+        return False
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"))
 
