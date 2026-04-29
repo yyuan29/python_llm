@@ -1,0 +1,9 @@
+[submodule "project_02_webscraping"]
+	path = project_02_webscraping
+	url = https://github.com/yyuan29/project_02_webscraping
+[submodule "project001"]
+	path = project001
+	url = https://github.com/yyuan29/project001
+[submodule "yyuan29.github.io"]
+	path = yyuan29.github.io
+	url = https://github.com/yyuan29/yyuan29.github.io
