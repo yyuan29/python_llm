@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cmc-csci040-yyuan29" 
+version = "0.10.0"
+description = "A pirate chatbot"
+readme = "README.md"
+dependencies = [
+    "groq",
+    "python-dotenv",
+]
+
+authors = [
+    { name = "Yumo Yuan", email = "yyuan29@cmc.edu" }
+]
+requires-python = ">=3.10"
+
+[project.scripts]
+chat = "chat:repl"

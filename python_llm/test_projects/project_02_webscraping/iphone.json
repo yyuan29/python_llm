@@ -1,0 +1,962 @@
+[
+    {
+        "name": "Apple iPhone 15 Pro (Excellent Condition) - (Unlocked, AT&T, T-Mobile, Verizon)",
+        "price": "$629.99",
+        "status": "Pre-Owned",
+        "shipping": 12.99,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 17 Pro Max A3257 256GB Unlocked Excellent Condition",
+        "price": "$1,373.83",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 219
+    },
+    {
+        "name": "Apple iPhone 17 Pro A3256 256GB Unlocked Excellent Condition",
+        "price": "$1,146.85",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 193
+    },
+    {
+        "name": "Apple iPhone 17 Air A3260 256GB Unlocked Excellent Condition",
+        "price": "$820.21",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 14 128GB - Fully Unlocked - VERY GOOD Condition",
+        "price": "$290.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 461
+    },
+    {
+        "name": "Apple iPhone 14 128/256/512GB Unlocked Good All Colors",
+        "price": "$304.86",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 501
+    },
+    {
+        "name": "Apple iPhone 12 128GB - Fully Unlocked - VERY GOOD Condition",
+        "price": "$216.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 158
+    },
+    {
+        "name": "Apple iPhone 14 128GB Network Unlocked Very Good Condition",
+        "price": "$282.17",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 5534
+    },
+    {
+        "name": "Apple iPhone 14, 128GB-256GB-512GB, Unlocked - Very Good Condition - All Colors",
+        "price": "$274.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 311
+    },
+    {
+        "name": "Apple iPhone 13 A2482 128GB Network Unlocked Very Good Condition",
+        "price": "$254.65",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 10000
+    },
+    {
+        "name": "Apple iPhone 13, 128/256/512GB - Unlocked - Used  Good - All colors",
+        "price": "$304.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 128
+    },
+    {
+        "name": "Apple iPhone 14 Pro 256GB Network Unlocked Excellent Condition",
+        "price": "$455.49",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1294
+    },
+    {
+        "name": "Apple iPhone 14 -5G - 128GB Factory Unlocked GSM + CDMA - EXCELLENT",
+        "price": "$284.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 78
+    },
+    {
+        "name": "Apple iPhone 16 Pro Max 256GB Unlocked Excellent Condition",
+        "price": "$862.75",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1770
+    },
+    {
+        "name": "Apple iPhone 17 A3258 256GB Unlocked Excellent Condition",
+        "price": "$777.45",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 14
+    },
+    {
+        "name": "Apple iPhone 16 Pro 128GB Unlocked Very Good Condition",
+        "price": "$621.03",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1711
+    },
+    {
+        "name": "Apple iPhone 15 A2846 128GB Unlocked Very Good Condition",
+        "price": "$386.64",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 2170
+    },
+    {
+        "name": "Apple iPhone 13 256GB Network Unlocked Very Good Condition",
+        "price": "$278.45",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 567
+    },
+    {
+        "name": "Apple iPhone 14 Pro A2650 256GB Unlocked Very Good Condition",
+        "price": "$412.72",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 3497
+    },
+    {
+        "name": "Apple iPhone 13 128/256/512GB Unlocked Very Good All Colors",
+        "price": "$257.10",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 252
+    },
+    {
+        "name": "Apple iPhone 12 Mini, 64/128/256GB - Unlocked-  Refurbished Excellent",
+        "price": "$214.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 25
+    },
+    {
+        "name": "Apple iPhone 17 Pro Max - 1 TB - Cosmic Orange (Unlocked)",
+        "price": "$499.99",
+        "status": "Brand New \u00b7 Apple iPhone 17 Pro Max \u00b7 1 TB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 128GB Unlocked - Excellent",
+        "price": "$388.95",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 467
+    },
+    {
+        "name": "Apple iPhone 13 128GB Unlocked Fair Condition - All Colors",
+        "price": "$249.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 504
+    },
+    {
+        "name": "Apple iPhone 13 Mini 128/256/512GB Unlocked Good All Colors",
+        "price": "$251.85",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 39
+    },
+    {
+        "name": "Apple iPhone 13 Pro 128/256/512GB/1TB Unlocked Good All Colors",
+        "price": "$332.17",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 146
+    },
+    {
+        "name": "New in Sealed Box Apple iPhone 13 MINI A2481 128/256 Factory Unlocked Smartphone",
+        "price": "$389.12",
+        "status": "Brand New",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 11 128GB 64GB Unlocked - Mint Condition, Black/Red, Free Shipping!",
+        "price": "$189.00",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 Pro Max A2849 256GB Unlocked Very Good",
+        "price": "$557.24",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 10000
+    },
+    {
+        "name": "Apple iPhone 16 Pro 256GB Unlocked Very Good Condition",
+        "price": "$680.21",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1252
+    },
+    {
+        "name": "Apple iPhone 16 128GB Unlocked Excellent Condition",
+        "price": "$600.51",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 574
+    },
+    {
+        "name": "Apple iPhone 17 Air A3260 256GB Unlocked Very Good Condition",
+        "price": "$813.43",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 58
+    },
+    {
+        "name": "Apple iPhone 12 Unlocked Verizon, T-Mobile, AT&T all Carriers",
+        "price": "$178.89",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 127
+    },
+    {
+        "name": "Apple iPhone 14 Pro A2650 128GB Network Unlocked Very Good Condition",
+        "price": "$412.49",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 4070
+    },
+    {
+        "name": "Apple iPhone 13 A2482 128GB Midnight TracFone Locked",
+        "price": "$179.99",
+        "status": "Pre-Owned \u00b7 Apple iPhone 13 \u00b7 128 GB \u00b7 TracFone",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 61
+    },
+    {
+        "name": "Apple iPhone 13 128/256/512GB Unlocked Good All Colors",
+        "price": "$899.00",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 50
+    },
+    {
+        "name": "Apple iPhone 13 Mini, 128/256/512GB - Unlocked - Refurbished Excellent",
+        "price": "$404.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 20
+    },
+    {
+        "name": "Apple iPhone 8 - (Great Condition) - Unlocked, AT&T, T-Mobile, Verizon",
+        "price": "$169.99",
+        "status": "Pre-Owned",
+        "shipping": 7.99,
+        "free_returns": true,
+        "items_sold": 87
+    },
+    {
+        "name": "Apple iPhone 16 Pro 256GB Unlocked Excellent Condition",
+        "price": "$699.31",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 668
+    },
+    {
+        "name": "Apple iPhone 16 Plus 128GB Unlocked Very Good Condition",
+        "price": "$542.00",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 844
+    },
+    {
+        "name": "Apple iPhone 12 Pro 128GB Fully Unlocked A2341 Very Good Condition",
+        "price": "$239.89",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 543
+    },
+    {
+        "name": "Apple iPhone SE 3rd Gen (2022) 64/128/256GB-Unlocked -Refurbished Excellent",
+        "price": "$189.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 187
+    },
+    {
+        "name": "Apple iPhone 12 64GB 128GB 256GB Unlocked Smartphone - Good",
+        "price": "$229.99",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 14 128GB Unlocked - Very Good",
+        "price": "$269.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 217
+    },
+    {
+        "name": "Apple iPhone 16E - 128GB -Cricket Only",
+        "price": "$250.00",
+        "status": "Brand New \u00b7 Apple iPhone 16e \u00b7 128 GB \u00b7 Cricket Wireless",
+        "shipping": 9.26,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 Mini 128GB Unlocked - Good",
+        "price": "$202.99",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 101
+    },
+    {
+        "name": "Apple iPhone 13 A2482 128GB Starlight Unlocked Excellent Condition",
+        "price": "$276.21",
+        "status": "Excellent - Refurbished \u00b7 Apple iPhone 13 \u00b7 128 GB \u00b7 Gsm",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 79
+    },
+    {
+        "name": "Apple iPhone 12 64GB \u2013 Fully Unlocked - VERY GOOD CONDITION - Unlocked",
+        "price": "$186.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 2658
+    },
+    {
+        "name": "Apple iPhone 14+ A2632 128GB Unlocked Very Good Condition",
+        "price": "$296.77",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1558
+    },
+    {
+        "name": "Apple iPhone 12 mini - 64 GB | 128GB | 256GB (Unlocked) Smartphone - Very Good",
+        "price": "$204.95",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 128
+    },
+    {
+        "name": "Apple iPhone SE 3rd Gen (2022) 64GB 128GB 256GB Unlocked AT&T T-Mobile Verizon",
+        "price": "$249.99",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 128/256/512GB Unlocked Good All Colors",
+        "price": "$403.86",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 113
+    },
+    {
+        "name": "NEW! Apple iPhone SE 2022 5G 3rd Gen 100% \ud83d\udd0b Battery - Factory \ud83d\udd13 Unlocked \ud83d\udd1f/\ud83d\udd1f",
+        "price": "$449.00",
+        "status": "Open Box",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 458
+    },
+    {
+        "name": "Apple iPhone 11 A2111 64GB 128GB 256GB Unlocked Smartphone - Good",
+        "price": "$189.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 87
+    },
+    {
+        "name": "Apple iPhone 15 256GB Factory Unlocked AT&T T-Mobile Verizon Excellent Condition",
+        "price": "$475.95",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 203
+    },
+    {
+        "name": "Apple iPhone 15 128/256/512GB Unlocked Very Good All Colors",
+        "price": "$422.86",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 83
+    },
+    {
+        "name": "iphone 11 unlocked 64gb",
+        "price": "$141.00",
+        "status": "Pre-Owned \u00b7 Apple iPhone 11 \u00b7 64 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 128GB Unlocked - Excellent",
+        "price": "$269.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 270
+    },
+    {
+        "name": "Apple iPhone 17 Pro Max A3257 2TB Unlocked Very Good Condition",
+        "price": "$1,618.97",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 17 Air A3260 512GB Unlocked Very Good Condition",
+        "price": "$843.41",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 Pro A2848 256GB Unlocked - Very Good Condition",
+        "price": "$506.45",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 2067
+    },
+    {
+        "name": "Apple iPhone 16e 128GB Unlocked Excellent Condition",
+        "price": "$403.52",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 463
+    },
+    {
+        "name": "Apple iPhone 16 Pro Max 512GB Unlocked Very Good Condition",
+        "price": "$819.42",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 363
+    },
+    {
+        "name": "Apple iPhone 17 Pro Max A3257 2TB Unlocked Excellent Condition",
+        "price": "$1,896.39",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 Mini 128GB Unlocked - Excellent",
+        "price": "$231.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 38
+    },
+    {
+        "name": "Apple iPhone 12 64| 128 | 256GB - Fully Unlocked All Mobile Carriers -  GOOD",
+        "price": "$220.00",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 63
+    },
+    {
+        "name": "Apple iPhone 4, 4s A1387, A1332",
+        "price": "$35.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 35
+    },
+    {
+        "name": "Apple iPhone 15 Plus A2847 (Fully Unlocked) 128GB Black (Very Good)",
+        "price": "$364.99",
+        "status": "Very Good - Refurbished \u00b7 Apple iPhone 15 Plus \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 150
+    },
+    {
+        "name": "Apple iPhone 16 Pro 128GB Unlocked Excellent Condition",
+        "price": "$651.80",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 277
+    },
+    {
+        "name": "iPhone 15 128GB 256GB 512GB Verizon AT&T T-Mobile Unlocked (Excellent)",
+        "price": "$567.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 Pro 128/256/512GB/1TB Unlocked Very Good All Colors",
+        "price": "$352.54",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 223
+    },
+    {
+        "name": "Apple iPhone 13 Pro Max 128GB - Fully Unlocked - EXCELLENT Condition",
+        "price": "$413.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 93
+    },
+    {
+        "name": "Apple iPhone 12 Pro, 128/256/512GB - Fully Unlocked - Refurbished Excellent",
+        "price": "$324.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 154
+    },
+    {
+        "name": "Apple iPhone 16 Pro Max A3084 512GB Unlocked Excellent Condition",
+        "price": "$862.41",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 105
+    },
+    {
+        "name": "Apple iPhone 17 Pro Max A3257 512GB Unlocked Very Good Condition",
+        "price": "$1,397.47",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 17 Pro A3256 512GB Unlocked Very Good Condition",
+        "price": "$1,130.33",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 9
+    },
+    {
+        "name": "Apple iPhone 12 64GB - Fully Unlocked - EXCELLENT Condition",
+        "price": "$199.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 175
+    },
+    {
+        "name": "Apple iPhone 12 - 64GB 128GB 256GB - All Colors - Good Condition",
+        "price": "$225.00",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 112
+    },
+    {
+        "name": "Apple iPhone 15 128GB - Fully Unlocked- VERY GOOD Condition",
+        "price": "$384.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 201
+    },
+    {
+        "name": "Apple iPhone 15 Pro Max - 1 TB - Black Titanium (Unlocked)",
+        "price": "$330.00",
+        "status": "Brand New \u00b7 Apple iPhone 15 Pro Max \u00b7 1 TB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 14 128GB Unlocked - Excellent",
+        "price": "$288.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 232
+    },
+    {
+        "name": "Apple iPhone SE 1st Gen - 16/32/64/128GB - Unlocked - GSM/CDMA - Good Condition",
+        "price": "$74.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 35
+    },
+    {
+        "name": "Apple\u00a0iPhone\u00a014\u00a0Pro Max 128/256/512GB/1TB Unlocked Very Good All Colors",
+        "price": "$450.44",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 279
+    },
+    {
+        "name": "Apple iPhone 12 Mini 5.4\" Factory Unlocked (Any Carrier) 64GB 128GB 256GB Good",
+        "price": "$194.99",
+        "status": "Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 65
+    },
+    {
+        "name": "Apple iPhone 15 A2846 256GB Unlocked Very Good Condition",
+        "price": "$416.87",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 48
+    },
+    {
+        "name": "Apple iPhone 6 16GB 64GB 128GB T-Mobile Verizon Unlocked iOS Silver/Space Gray",
+        "price": "$72.00",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 132
+    },
+    {
+        "name": "Apple iPhone 14 128GB Unlocked 6.1\" - (Blue) A2649 w/1 Year Warranty",
+        "price": "$268.36",
+        "status": "Good - Refurbished \u00b7 Apple iPhone 14 \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 618
+    },
+    {
+        "name": "Apple iPhone 15 Plus 128GB Unlocked Very Good Condition",
+        "price": "$393.18",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1209
+    },
+    {
+        "name": "Apple iPhone 15 Pro Max A2849 512GB Unlocked Excellent Condition",
+        "price": "$650.41",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 183
+    },
+    {
+        "name": "Apple iPhone 17 Pro A3256 512GB Unlocked Excellent Condition",
+        "price": "$1,277.46",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 Pro Max A2849 512GB Unlocked Very Good Condition",
+        "price": "$645.69",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1583
+    },
+    {
+        "name": "Apple iPhone 15 Pro A2848 128GB Unlocked - Very Good Condition",
+        "price": "$456.64",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 1233
+    },
+    {
+        "name": "Apple iPhone 14 128GB 6.1\" 5G Fully Unlocked. US VERSION - Excellent",
+        "price": "$293.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 133
+    },
+    {
+        "name": "Apple iPhone 14 A2649 (Fully Unlocked) 128GB Midnight (Excellent)",
+        "price": "$289.99",
+        "status": "Excellent - Refurbished \u00b7 Apple iPhone 14 \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 188
+    },
+    {
+        "name": "Apple iPhone 14 256GB Factory Unlocked AT&T T-Mobile Verizon Very Good Condition",
+        "price": "$307.95",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 265
+    },
+    {
+        "name": "Apple iPhone 14 Pro 128/256/512GB/1TB - Unlocked - All Colors - Used Excellent",
+        "price": "$474.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 20
+    },
+    {
+        "name": "Apple iPhone 12 Mini 5.4\" Unlocked (Any Carrier) 64GB 128GB 256GB Very Good",
+        "price": "$199.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 15
+    },
+    {
+        "name": "Apple iPhone 12 64/128GB - Fully Unlocked AT&T T-Mobile Verizon - All colors",
+        "price": "$220.00",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 16
+    },
+    {
+        "name": "Apple iPhone 13 Pro Max 128GB Unlocked 6.7\" (Alpine Green) - A2484 w/Warranty",
+        "price": "$409.00",
+        "status": "Excellent - Refurbished \u00b7 Apple iPhone 13 Pro Max \u00b7 128 GB",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 12
+    },
+    {
+        "name": "Apple iPhone 14 Pro 256GB Unlocked 6.1\" - (Deep Purple) A2650 w/Warranty",
+        "price": "$380.09",
+        "status": "Good - Refurbished \u00b7 Apple iPhone 14 Pro \u00b7 256 GB",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 131
+    },
+    {
+        "name": "Apple iPhone 16 Pro 256GB Unlocked Excellent Condition",
+        "price": "$699.31",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 668
+    },
+    {
+        "name": "Apple iPhone 13 Pro  128GB Graphite Unlocked Verizon, AT&T, T-Mobile",
+        "price": "$359.89",
+        "status": "Open Box \u00b7 Apple iPhone 13 Pro \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 100
+    },
+    {
+        "name": "Apple iPhone 14, 128GB, Network Unlocked - Excellent Condition",
+        "price": "$334.85",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 3389
+    },
+    {
+        "name": "Apple iPhone 14 Plus A2632 Unlocked 128GB Midnight Good",
+        "price": "$272.00",
+        "status": "Good - Refurbished \u00b7 Apple iPhone 14 Plus \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 196
+    },
+    {
+        "name": "Apple iPhone SE (3rd gen) 64/128/256GB Unlocked, Used Good (NO FINGERPRINT)",
+        "price": "$119.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": 17
+    },
+    {
+        "name": "Apple iPhone 13 128GB Unlocked Very Good Condition - All Colors",
+        "price": "$289.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 233
+    },
+    {
+        "name": "Apple iPhone 14 Pro A2650 128GB Network Unlocked Excellent Condition",
+        "price": "$437.45",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 2685
+    },
+    {
+        "name": "Apple iPhone XS MAX Fully Unlocked (Any Carrier) 64GB 256GB 512GB",
+        "price": "$229.99",
+        "status": "Open Box",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 Pro 256GB Unlocked AT&T T-Mobile Verizon Excellent Condition",
+        "price": "$523.95",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 244
+    },
+    {
+        "name": "Apple iPhone 15, 128 GB, Black, Unlocked, Clean",
+        "price": "$230.00",
+        "status": "Pre-Owned \u00b7 Apple iPhone 15 \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 11.95,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 14 128GB Unlocked - Excellent",
+        "price": "$288.95",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 458
+    },
+    {
+        "name": "Apple iPhone 15 128GB Unlocked - Excellent",
+        "price": "$394.99",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 95
+    },
+    {
+        "name": "NEW Apple iPhone 16E (2025)  Factory \ud83d\udd13 Unlocked - 100% \ud83d\udd0b Battery 128/256/512",
+        "price": "$679.00",
+        "status": "Open Box",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 156
+    },
+    {
+        "name": "Apple iPhone SE 1st Gen. - 16GB 32GB 64GB 128GB - ALL COLORS Unlocked",
+        "price": "$104.99",
+        "status": "Pre-Owned",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": 104
+    },
+    {
+        "name": "Apple iPhone 14 Pro Max 128GB Network Unlocked Very Good Condition",
+        "price": "$492.15",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 6936
+    },
+    {
+        "name": "Apple iPhone 16 Pro Max - 1 TB - Natural Titanium (Unlocked)",
+        "price": "$448.00",
+        "status": "Brand New \u00b7 Apple iPhone 16 Pro Max \u00b7 1 TB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": false,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 15 128GB Factory Unlocked CDMA + GSM - EXCELLENT",
+        "price": "$399.48",
+        "status": "Excellent - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 128GB Unlocked - Very Good",
+        "price": "$245.99",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 286
+    },
+    {
+        "name": "Apple iPhone 15 Pro (A3102) 128GB - White Titanium (Unlocked) - *DAMAGED*",
+        "price": "$350.99",
+        "status": "Parts Only \u00b7 Apple iPhone 15 Pro \u00b7 128 GB \u00b7 Unlocked",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": null
+    },
+    {
+        "name": "Apple iPhone 13 Pro Max A2484 128GB Network Unlocked Very Good Condition",
+        "price": "$414.25",
+        "status": "Very Good - Refurbished",
+        "shipping": 0,
+        "free_returns": true,
+        "items_sold": 2164
+    }
+]
