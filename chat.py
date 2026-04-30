@@ -118,7 +118,6 @@ def repl():
 
     chat = Chat(mock=True)
 
-    # ✅ STARTUP CHECKS (REQUIRED)
     if not os.path.isdir(".git"):
         print("Error: .git folder not found")
         return
